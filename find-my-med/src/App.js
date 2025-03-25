@@ -430,14 +430,39 @@ const AboutPage = () => {
   );
 };
 
-// Contact Page Component
+// Contact Page Component with FormSpree
 const ContactPage = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting contact form", { email, message });
+    
+    try {
+      const response = await fetch("https://formspree.io/f/mnnpzdwa", {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          message: message
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setSubmissionStatus("Message sent successfully!");
+        setEmail("");
+        setMessage("");
+      } else {
+        setSubmissionStatus("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      setSubmissionStatus("An error occurred. Please try again later.");
+    }
   };
 
   return (
@@ -466,19 +491,51 @@ const ContactPage = () => {
           >
             Send Message
           </button>
+          {submissionStatus && (
+            <div className={`mt-4 p-3 rounded-lg text-center ${
+              submissionStatus.includes("successfully") 
+                ? "bg-green-100 text-green-700" 
+                : "bg-red-100 text-red-700"
+            }`}>
+              {submissionStatus}
+          </div>
+          )}
         </form>
       </div>
     </div>
   );
 };
 
-// Newsletter Subscription Page
+// Newsletter Subscription Page with FormSpree
 const NewsletterPage = () => {
   const [email, setEmail] = useState("");
+  const [subscriptionStatus, setSubscriptionStatus] = useState("");
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    console.log("Subscribing email:", email);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/xjkyowlv", {
+        method: "POST",
+        body: JSON.stringify({
+          email: email
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setSubscriptionStatus("Successfully subscribed to our newsletter!");
+        setEmail("");
+      } else {
+        setSubscriptionStatus("Subscription failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Subscription error:", error);
+      setSubscriptionStatus("An error occurred. Please try again later.");
+    }
   };
 
   return (
@@ -502,12 +559,20 @@ const NewsletterPage = () => {
           >
             Subscribe
           </button>
+          {subscriptionStatus && (
+            <div className={`mt-4 p-3 rounded-lg text-center ${
+              subscriptionStatus.includes("Successfully") 
+                ? "bg-green-100 text-green-700" 
+                : "bg-red-100 text-red-700"
+            }`}>
+              {subscriptionStatus}
+            </div>
+          )}
         </form>
       </div>
     </div>
   );
 };
-
 // Main App Component
 const FindMyMedApp = () => {
   const [currentPage, setCurrentPage] = useState("home");
