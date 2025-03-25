@@ -105,14 +105,82 @@ const LandingPage = ({ setCurrentPage }) => {
   );
 };
 
+// Interactive Map Component
+const MapPage = ({ address, medicine }) => {
+  // Mock pharmacies data based on search
+  const mockPharmacies = [
+    { 
+      name: "Wellness Pharmacy", 
+      address: "123 Health St", 
+      distance: "0.5 miles",
+      hasStock: medicine ? Math.random() > 0.5 : false
+    },
+    { 
+      name: "City Drug Store", 
+      address: "456 Wellness Ave", 
+      distance: "1.2 miles",
+      hasStock: medicine ? Math.random() > 0.5 : false
+    },
+    { 
+      name: "QuickMed Pharmacy", 
+      address: "789 Care Blvd", 
+      distance: "2.0 miles",
+      hasStock: medicine ? Math.random() > 0.5 : false
+    }
+  ];
+
+  return (
+    <div className="h-[500px] w-full bg-teal-50 border-2 border-teal-200 rounded-lg p-4">
+      <h3 className="text-2xl font-bold text-teal-700 mb-4">Search Results</h3>
+      {address && medicine ? (
+        <div>
+          <p className="mb-4 text-teal-600">
+            Searching for <span className="font-bold">{medicine}</span> near <span className="font-bold">{address}</span>
+          </p>
+          <div className="space-y-4">
+            {mockPharmacies.map((pharmacy, index) => (
+              <div 
+                key={index} 
+                className={`p-4 rounded-lg ${
+                  pharmacy.hasStock 
+                    ? 'bg-green-100 border-2 border-green-300' 
+                    : 'bg-red-100 border-2 border-red-300'
+                }`}
+              >
+                <h4 className="font-bold text-lg">{pharmacy.name}</h4>
+                <p>{pharmacy.address}</p>
+                <p>Distance: {pharmacy.distance}</p>
+                <p className="font-semibold">
+                  {pharmacy.hasStock 
+                    ? '✅ Medication in Stock' 
+                    : '❌ Medication Not Available'}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="h-full flex items-center justify-center text-teal-600">
+          Enter an address and medicine to search nearby pharmacies
+        </div>
+      )}
+    </div>
+  );
+};
+
 // Search Page Component
 const SearchPage = () => {
   const [address, setAddress] = useState('');
   const [medicine, setMedicine] = useState('');
+  const [showResults, setShowResults] = useState(false);
 
   const handleSearch = () => {
-    // Placeholder for search functionality
-    console.log('Searching for', medicine, 'near', address);
+    // Validate inputs
+    if (address.trim() && medicine.trim()) {
+      setShowResults(true);
+    } else {
+      alert('Please enter both address and medicine name');
+    }
   };
 
   return (
@@ -126,14 +194,20 @@ const SearchPage = () => {
               type="text" 
               placeholder="Enter Address" 
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => {
+                setAddress(e.target.value);
+                setShowResults(false);
+              }}
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
             />
             <input 
               type="text" 
               placeholder="Enter Medicine Name" 
               value={medicine}
-              onChange={(e) => setMedicine(e.target.value)}
+              onChange={(e) => {
+                setMedicine(e.target.value);
+                setShowResults(false);
+              }}
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
             />
             <button 
@@ -145,16 +219,15 @@ const SearchPage = () => {
           </div>
         </div>
 
-        {/* Map Placeholder */}
+        {/* Map Section */}
         <div className="w-1/2 pl-8">
-          <div className="bg-teal-100 h-[500px] rounded-xl flex items-center justify-center">
-            <p className="text-teal-600">Map Placeholder</p>
-          </div>
+          <MapPage address={showResults ? address : ''} medicine={showResults ? medicine : ''} />
         </div>
       </div>
     </div>
   );
 };
+
 
 // About Page Component
 const AboutPage = () => {
