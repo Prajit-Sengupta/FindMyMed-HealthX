@@ -8,6 +8,8 @@ import {
   ChevronRight,
   Cross,
   Heart,
+  X,
+  Bold
 } from "lucide-react";
 
 // Header Component
@@ -113,66 +115,125 @@ const LandingPage = ({ setCurrentPage }) => {
     </div>
   );
 };
+// SVG Map Placeholder
+const MapPlaceholder = ({ pharmacies }) => {
+  return (
+    <svg 
+      viewBox="0 0 600 400" 
+      xmlns="http://www.w3.org/2000/svg" 
+      className="w-full h-full"
+    >
+      {/* Background */}
+      <rect width="600" height="400" fill="#e6f3f3" />
+      
+      {/* Grid lines */}
+      {[...Array(10)].map((_, i) => (
+        <React.Fragment key={i}>
+          <line 
+            x1={i * 60} 
+            y1="0" 
+            x2={i * 60} 
+            y2="400" 
+            stroke="#b0d4d4" 
+            strokeWidth="1" 
+          />
+          <line 
+            x1="0" 
+            y1={i * 40} 
+            x2="600" 
+            y2={i * 40} 
+            stroke="#b0d4d4" 
+            strokeWidth="1" 
+          />
+        </React.Fragment>
+      ))}
+      
+      {/* Pharmacy Markers */}
+      {pharmacies.map((pharmacy, index) => {
+        const x = Math.random() * 500 + 50;
+        const y = Math.random() * 300 + 50;
+        return (
+          <React.Fragment key={index}>
+            {/* Location Pin */}
+            <circle 
+              cx={x} 
+              cy={y} 
+              r="10" 
+              fill={pharmacy.hasStock ? "#10b981" : "#ef4444"} 
+              stroke="white" 
+              strokeWidth="3" 
+            />
+            {/* Number Label */}
+            <text 
+              x={x} 
+              y={y} 
+              textAnchor="middle" 
+              dy="4" 
+              fill="white" 
+              fontWeight="bold" 
+              fontSize="8"
+            >
+              {index + 1}
+            </text>
+          </React.Fragment>
+        );
+      })}
+    </svg>
+  );
+};
 
 // Interactive Map Component
-const MapPage = ({ address, medicine }) => {
-  // Mock pharmacies data based on search
-  const mockPharmacies = [
-    { 
-      name: "Wellness Pharmacy", 
-      address: "123 Health St", 
-      distance: "0.5 miles",
-      hasStock: medicine ? Math.random() > 0.5 : false
-    },
-    { 
-      name: "City Drug Store", 
-      address: "456 Wellness Ave", 
-      distance: "1.2 miles",
-      hasStock: medicine ? Math.random() > 0.5 : false
-    },
-    { 
-      name: "QuickMed Pharmacy", 
-      address: "789 Care Blvd", 
-      distance: "2.0 miles",
-      hasStock: medicine ? Math.random() > 0.5 : false
-    }
-  ];
-
+const MapPage = ({ address, medicine, pharmacies, onClearSearch }) => {
   return (
-    <div className="h-[500px] w-full bg-teal-50 border-2 border-teal-200 rounded-lg p-4">
-      <h3 className="text-2xl font-bold text-teal-700 mb-4">Search Results</h3>
-      {address && medicine ? (
-        <div>
-          <p className="mb-4 text-teal-600">
-            Searching for <span className="font-bold">{medicine}</span> near <span className="font-bold">{address}</span>
+    <div className="flex space-x-4 h-[500px]">
+      {/* Map View */}
+      <div className="w-2/3 relative bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+        <MapPlaceholder pharmacies={pharmacies} />
+        <div className="absolute top-4 right-4">
+          <button 
+            onClick={onClearSearch}
+            className="bg-white text-teal-600 p-2 rounded-full shadow-lg hover:bg-teal-50 transition"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Pharmacy List */}
+      <div className="w-1/3 space-y-4 overflow-y-auto max-h-[500px] pr-2">
+        <div className="bg-white rounded-lg shadow-lg p-4">
+          <h3 className="text-xl font-bold text-teal-700 mb-2">Search Details</h3>
+          <p className="text-teal-600">
+            <span className="font-semibold">Address:</span> {address}
           </p>
-          <div className="space-y-4">
-            {mockPharmacies.map((pharmacy, index) => (
-              <div 
-                key={index} 
-                className={`p-4 rounded-lg ${
-                  pharmacy.hasStock 
-                    ? 'bg-green-100 border-2 border-green-300' 
-                    : 'bg-red-100 border-2 border-red-300'
-                }`}
-              >
-                <h4 className="font-bold text-lg">{pharmacy.name}</h4>
-                <p>{pharmacy.address}</p>
-                <p>Distance: {pharmacy.distance}</p>
-                <p className="font-semibold">
-                  {pharmacy.hasStock 
-                    ? '✅ Medication in Stock' 
-                    : '❌ Medication Not Available'}
-                </p>
-              </div>
-            ))}
+          <p className="text-teal-600">
+            <span className="font-semibold">Medicine:</span> {medicine}
+          </p>
+        </div>
+
+        {pharmacies.map((pharmacy, index) => (
+          <div 
+            key={index} 
+            className={`p-4 rounded-lg ${
+              pharmacy.hasStock 
+                ? 'bg-green-50 border-2 border-green-300' 
+                : 'bg-red-50 border-2 border-red-300'
+            } relative`}
+          >
+            <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md text-teal-600 font-bold">
+              {index + 1}
+            </div>
+            <h4 className="font-bold text-lg text-teal-800">{pharmacy.name}</h4>
+            <p className="text-teal-700">{pharmacy.address}</p>
+            <p className="text-teal-600">Distance: {pharmacy.distance}</p>
+            <div className={`mt-2 font-semibold ${pharmacy.hasStock ? 'text-green-700' : 'text-red-700'}`}>
+              {pharmacy.hasStock 
+                ? '✅ Medication in Stock' 
+                : '❌ Medication Not Available'}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="h-full flex items-center justify-center text-teal-600">
-          Enter an address and medicine to search nearby pharmacies
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 };
@@ -183,6 +244,28 @@ const SearchPage = () => {
   const [medicine, setMedicine] = useState('');
   const [showResults, setShowResults] = useState(false);
 
+  // Mock pharmacies data
+  const mockPharmacies = [
+    { 
+      name: "Wellness Pharmacy", 
+      address: "123 Health St", 
+      distance: "0.5 miles",
+      hasStock: Math.random() > 0.5
+    },
+    { 
+      name: "City Drug Store", 
+      address: "456 Wellness Ave", 
+      distance: "1.2 miles",
+      hasStock: Math.random() > 0.5
+    },
+    { 
+      name: "QuickMed Pharmacy", 
+      address: "789 Care Blvd", 
+      distance: "2.0 miles",
+      hasStock: Math.random() > 0.5
+    }
+  ];
+
   const handleSearch = () => {
     // Validate inputs
     if (address.trim() && medicine.trim()) {
@@ -192,53 +275,61 @@ const SearchPage = () => {
     }
   };
 
+  const handleClearSearch = () => {
+    setShowResults(false);
+    setAddress('');
+    setMedicine('');
+  };
+
   return (
     <div className="min-h-screen bg-teal-50 flex">
-      <div className="container mx-auto flex items-center justify-between p-8">
-        {/* Search Section */}
-        <div className="w-1/2 bg-white p-8 rounded-xl shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-teal-600">
-            Find Your Medication
-          </h2>
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Enter Address"
+      <div className="container mx-auto p-8">
+        {/* Search Input Section */}
+        <div className="bg-white p-8 rounded-xl shadow-lg mb-6">
+          <h2 className="text-3xl font-bold mb-6 text-teal-600">Find Your Medication</h2>
+          <div className="flex space-x-4">
+            <input 
+              type="text" 
+              placeholder="Enter Address" 
               value={address}
               onChange={(e) => {
                 setAddress(e.target.value);
                 setShowResults(false);
               }}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
             />
-            <input
-              type="text"
-              placeholder="Enter Medicine Name"
+            <input 
+              type="text" 
+              placeholder="Enter Medicine Name" 
               value={medicine}
               onChange={(e) => {
                 setMedicine(e.target.value);
                 setShowResults(false);
               }}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
             />
-            <button
+            <button 
               onClick={handleSearch}
-              className="w-full bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition flex items-center justify-center"
+              className="bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition flex items-center justify-center"
             >
-              <Search className="mr-2" /> Search Nearby Pharmacies
+              <Search className="mr-2" /> Search
             </button>
           </div>
         </div>
 
-        {/* Map Section */}
-        <div className="w-1/2 pl-8">
-          <MapPage address={showResults ? address : ''} medicine={showResults ? medicine : ''} />
-        </div>
+        {/* Results Section */}
+        {showResults && (
+          <MapPage 
+            address={address} 
+            medicine={medicine} 
+            pharmacies={mockPharmacies}
+            onClearSearch={handleClearSearch}
+          />
+        )}
       </div>
     </div>
   );
 };
-
 
 // About Page Component
 const AboutPage = () => {
@@ -249,9 +340,9 @@ const AboutPage = () => {
           About Find My Med
         </h2>
         <p className="text-teal-700 leading-relaxed mb-4">
-          Find My Med is an innovative platform designed to simplify medication
+          Find My Med is an innovative platform designed by <strong>Imperial College London</strong> Students to simplify medication
           access. Our mission is to connect patients with nearby pharmacies that
-          have the exact medicines they need.
+          have the exact medicines they need during emergency or regular use. (HealthX Initiative)
         </p>
         <div className="mt-6 grid md:grid-cols-3 gap-4">
           <div className="bg-teal-100 p-4 rounded-lg">
