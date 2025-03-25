@@ -180,6 +180,73 @@ const LandingPage = ({ setCurrentPage }) => {
   );
 };
 
+const MapPlaceholder = ({ pharmacies }) => {
+  return (
+    <svg 
+      viewBox="0 0 600 400" 
+      xmlns="http://www.w3.org/2000/svg" 
+      className="w-full h-full"
+    >
+      {/* Background */}
+      <rect width="600" height="400" fill="#e6f3f3" />
+      
+      {/* Grid lines */}
+      {[...Array(10)].map((_, i) => (
+        <React.Fragment key={i}>
+          <line 
+            x1={i * 60} 
+            y1="0" 
+            x2={i * 60} 
+            y2="400" 
+            stroke="#b0d4d4" 
+            strokeWidth="1" 
+          />
+          <line 
+            x1="0" 
+            y1={i * 40} 
+            x2="600" 
+            y2={i * 40} 
+            stroke="#b0d4d4" 
+            strokeWidth="1" 
+          />
+        </React.Fragment>
+      ))}
+      
+      {/* Pharmacy Markers */}
+      {pharmacies.map((pharmacy, index) => {
+        const x = Math.random() * 500 + 50;
+        const y = Math.random() * 300 + 50;
+        return (
+          <React.Fragment key={index}>
+            {/* Location Pin */}
+            <circle 
+              cx={x} 
+              cy={y} 
+              r="10" 
+              fill={pharmacy.hasStock ? "#10b981" : "#ef4444"} 
+              stroke="white" 
+              strokeWidth="3" 
+            />
+            {/* Number Label */}
+            <text 
+              x={x} 
+              y={y} 
+              textAnchor="middle" 
+              dy="4" 
+              fill="white" 
+              fontWeight="bold" 
+              fontSize="8"
+            >
+              {index + 1}
+            </text>
+          </React.Fragment>
+        );
+      })}
+    </svg>
+  );
+};
+
+
 // MapPage Component
 const MapPage = ({ address, medicine, pharmacies, onClearSearch }) => {
   return (
