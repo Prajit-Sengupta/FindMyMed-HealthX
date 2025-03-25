@@ -8,8 +8,7 @@ import {
   ChevronRight,
   Cross,
   Heart,
-  X,
-  Bold
+  X
 } from "lucide-react";
 
 // Header Component
