@@ -342,7 +342,7 @@ const AboutPage = () => {
         <p className="text-teal-700 leading-relaxed mb-4">
           Find My Med is an innovative platform designed by <strong>Imperial College London</strong> Students to simplify medication
           access. Our mission is to connect patients with nearby pharmacies that
-          have the exact medicines they need during emergency or regular use. (HealthX Initiative)
+          have the exact medicines they need during emergency or regular use.(HealthX Initiative)
         </p>
         <div className="mt-6 grid md:grid-cols-3 gap-4">
           <div className="bg-teal-100 p-4 rounded-lg">
