@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MapPin,
   Search,
@@ -9,8 +9,9 @@ import {
   Cross,
   Heart,
   X,
-  Menu
+  Menu,
 } from "lucide-react";
+
 
 // Header Component with Mobile Navigation
 const Header = ({ setCurrentPage }) => {
@@ -23,7 +24,7 @@ const Header = ({ setCurrentPage }) => {
           <Heart className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Find My Med</h1>
         </div>
-        
+
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
           <button
@@ -53,7 +54,7 @@ const Header = ({ setCurrentPage }) => {
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <button 
+        <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden"
         >
@@ -64,7 +65,7 @@ const Header = ({ setCurrentPage }) => {
         {mobileMenuOpen && (
           <div className="fixed inset-0 bg-teal-700 z-50 md:hidden">
             <div className="flex justify-end p-4">
-              <button 
+              <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-white"
               >
@@ -149,18 +150,30 @@ const LandingPage = ({ setCurrentPage }) => {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white p-4 rounded-lg shadow-md">
               <Heart className="h-8 w-8 text-teal-600 mb-2 mx-auto md:mx-0" />
-              <h3 className="font-bold text-teal-800 text-center md:text-left">Quick Search</h3>
-              <p className="text-sm text-teal-700 text-center md:text-left">Find meds instantly</p>
+              <h3 className="font-bold text-teal-800 text-center md:text-left">
+                Quick Search
+              </h3>
+              <p className="text-sm text-teal-700 text-center md:text-left">
+                Find meds instantly
+              </p>
             </div>
             <div className="bg-white p-4 rounded-lg shadow-md">
               <MapPin className="h-8 w-8 text-teal-600 mb-2 mx-auto md:mx-0" />
-              <h3 className="font-bold text-teal-800 text-center md:text-left">Nearby Pharmacies</h3>
-              <p className="text-sm text-teal-700 text-center md:text-left">Location-based results</p>
+              <h3 className="font-bold text-teal-800 text-center md:text-left">
+                Nearby Pharmacies
+              </h3>
+              <p className="text-sm text-teal-700 text-center md:text-left">
+                Location-based results
+              </p>
             </div>
             <div className="bg-white p-4 rounded-lg shadow-md">
               <Cross className="h-8 w-8 text-teal-600 mb-2 mx-auto md:mx-0" />
-              <h3 className="font-bold text-teal-800 text-center md:text-left">Accurate Info</h3>
-              <p className="text-sm text-teal-700 text-center md:text-left">Reliable medication data</p>
+              <h3 className="font-bold text-teal-800 text-center md:text-left">
+                Accurate Info
+              </h3>
+              <p className="text-sm text-teal-700 text-center md:text-left">
+                Reliable medication data
+              </p>
             </div>
           </div>
         </div>
@@ -180,82 +193,219 @@ const LandingPage = ({ setCurrentPage }) => {
   );
 };
 
-const MapPlaceholder = ({ pharmacies }) => {
+// GoogleMap Component - Fixed version
+const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
+  const mapContainerRef = useRef(null);
+  const [markers, setMarkers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load Google Maps API script
+  useEffect(() => {
+    // Function to load the Google Maps script
+    const loadGoogleMapsScript = () => {
+      if (!window.google) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places,geometry&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        window.initMap = () => {
+          if (mapContainerRef.current) {
+            initializeMap();
+          }
+        };
+        document.head.appendChild(script);
+      } else {
+        initializeMap();
+      }
+    };
+
+    loadGoogleMapsScript();
+
+    return () => {
+      // Cleanup function to remove the global callback
+      delete window.initMap;
+    };
+  }, []);
+
+  // Initialize map once script is loaded
+  const initializeMap = () => {
+    if (!mapContainerRef.current) return;
+
+    const map = new window.google.maps.Map(mapContainerRef.current, {
+      center: { lat: 51.5074, lng: -0.1278 }, // Default to London
+      zoom: 14,
+    });
+
+    setMapRef(map);
+    setLoading(false);
+  };
+
+  // Update map when address changes
+  useEffect(() => {
+    if (!mapRef || !address || !window.google) return;
+
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ address }, (results, status) => {
+      if (status === "OK" && results[0]) {
+        const location = results[0].geometry.location;
+
+        mapRef.setCenter(location);
+
+        // Clear existing markers
+        markers.forEach((marker) => marker.setMap(null));
+        const newMarkers = [];
+
+        // Add marker for user location
+        const userMarker = new window.google.maps.Marker({
+          position: location,
+          map: mapRef,
+          icon: {
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            scaledSize: new window.google.maps.Size(40, 40),
+          },
+          title: "Your Location",
+        });
+        newMarkers.push(userMarker);
+
+        // Find pharmacies near this location
+        const service = new window.google.maps.places.PlacesService(mapRef);
+
+        // Define the search request
+        const request = {
+          location: location,
+          radius: 5000, // 5km radius
+          keyword: "pharmacy", // Add keyword for better results
+          type: "pharmacy", // Using the correct type parameter
+        };
+
+        service.nearbySearch(request, (results, status) => {
+          if (
+            status === window.google.maps.places.PlacesServiceStatus.OK &&
+            results &&
+            results.length > 0
+          ) {
+            // Calculate distances for all pharmacies
+            const pharmaciesWithDistance = results.map((place) => {
+              const placeLocation = place.geometry.location;
+              const distanceInMeters =
+                window.google.maps.geometry.spherical.computeDistanceBetween(
+                  location,
+                  placeLocation
+                );
+              const distanceInMiles = (distanceInMeters / 1609.34).toFixed(1);
+              
+              return {
+                place,
+                distance: parseFloat(distanceInMiles),
+                distanceText: `${distanceInMiles} miles`,
+                location: placeLocation
+              };
+            });
+            
+            // Sort pharmacies by distance (closest first)
+            pharmaciesWithDistance.sort((a, b) => a.distance - b.distance);
+            
+            // Take only the closest 3 pharmacies
+            const nearbyPharmacies = pharmaciesWithDistance.slice(0, 3);
+        
+            // Create updated pharmacies list with real data
+            const updatedPharmacies = nearbyPharmacies.map((pharmacy, index) => {
+              // Add pharmacy marker
+              const marker = new window.google.maps.Marker({
+                position: pharmacy.location,
+                map: mapRef,
+                icon: {
+                  url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                  scaledSize: new window.google.maps.Size(40, 40),
+                },
+                label: {
+                  text: (index + 1).toString(),
+                  color: "white",
+                  fontSize: "14px",
+                },
+                title: pharmacy.place.name,
+              });
+        
+              newMarkers.push(marker);
+        
+              // Create info window
+              const infoWindow = new window.google.maps.InfoWindow({
+                content: `<div><strong>${pharmacy.place.name}</strong><br/>${pharmacy.place.vicinity}<br/>${pharmacy.distanceText}</div>`,
+              });
+        
+              marker.addListener("click", () => {
+                infoWindow.open(mapRef, marker);
+              });
+        
+              // Randomly determine if medication is in stock
+              const hasStock = Math.random() > 0.5;
+        
+              return {
+                name: pharmacy.place.name,
+                address: pharmacy.place.vicinity,
+                distance: pharmacy.distanceText,
+                hasStock,
+                location: {
+                  lat: pharmacy.location.lat(),
+                  lng: pharmacy.location.lng(),
+                },
+              };
+            });
+        
+            // Update the pharmacies state in parent component
+            if (pharmacies.setPharmacies) {
+              pharmacies.setPharmacies(updatedPharmacies);
+            }
+          } else {
+            console.error("Places API error or no pharmacies found:", status);
+            // Set empty array if no results
+            if (pharmacies.setPharmacies) {
+              pharmacies.setPharmacies([]);
+            }
+          }
+        });
+
+        setMarkers(newMarkers);
+      } else {
+        console.error("Geocoding error:", status);
+      }
+    });
+  }, [address, mapRef]);
+
   return (
-    <svg 
-      viewBox="0 0 600 400" 
-      xmlns="http://www.w3.org/2000/svg" 
-      className="w-full h-full"
-    >
-      {/* Background */}
-      <rect width="600" height="400" fill="#e6f3f3" />
-      
-      {/* Grid lines */}
-      {[...Array(10)].map((_, i) => (
-        <React.Fragment key={i}>
-          <line 
-            x1={i * 60} 
-            y1="0" 
-            x2={i * 60} 
-            y2="400" 
-            stroke="#b0d4d4" 
-            strokeWidth="1" 
-          />
-          <line 
-            x1="0" 
-            y1={i * 40} 
-            x2="600" 
-            y2={i * 40} 
-            stroke="#b0d4d4" 
-            strokeWidth="1" 
-          />
-        </React.Fragment>
-      ))}
-      
-      {/* Pharmacy Markers */}
-      {pharmacies.map((pharmacy, index) => {
-        const x = Math.random() * 500 + 50;
-        const y = Math.random() * 300 + 50;
-        return (
-          <React.Fragment key={index}>
-            {/* Location Pin */}
-            <circle 
-              cx={x} 
-              cy={y} 
-              r="10" 
-              fill={pharmacy.hasStock ? "#10b981" : "#ef4444"} 
-              stroke="white" 
-              strokeWidth="3" 
-            />
-            {/* Number Label */}
-            <text 
-              x={x} 
-              y={y} 
-              textAnchor="middle" 
-              dy="4" 
-              fill="white" 
-              fontWeight="bold" 
-              fontSize="8"
-            >
-              {index + 1}
-            </text>
-          </React.Fragment>
-        );
-      })}
-    </svg>
+    <div className="w-full h-full rounded-lg overflow-hidden">
+      {loading && (
+        <div className="flex items-center justify-center h-full bg-gray-100">
+          <p className="text-teal-600 font-semibold">Loading map...</p>
+        </div>
+      )}
+      <div ref={mapContainerRef} className="w-full h-full" />
+    </div>
   );
 };
 
+// MapPage Component with Google Maps Integration
+const MapPage = ({
+  address,
+  medicine,
+  pharmacies,
+  setPharmacies,
+  onClearSearch,
+}) => {
+  const [mapRef, setMapRef] = useState(null);
 
-// MapPage Component
-const MapPage = ({ address, medicine, pharmacies, onClearSearch }) => {
   return (
     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 h-auto md:h-[500px]">
       {/* Map View */}
-      <div className="w-full md:w-2/3 relative bg-gray-100 rounded-lg overflow-hidden shadow-lg">
-        <MapPlaceholder pharmacies={pharmacies} />
+      <div className="w-full md:w-2/3 relative bg-gray-100 rounded-lg overflow-hidden shadow-lg h-64 md:h-full">
+        <GoogleMap
+          address={address}
+          pharmacies={{ list: pharmacies, setPharmacies }}
+          mapRef={mapRef}
+          setMapRef={setMapRef}
+        />
         <div className="absolute top-4 right-4">
-          <button 
+          <button
             onClick={onClearSearch}
             className="bg-white text-teal-600 p-2 rounded-full shadow-lg hover:bg-teal-50 transition"
           >
@@ -267,7 +417,9 @@ const MapPage = ({ address, medicine, pharmacies, onClearSearch }) => {
       {/* Pharmacy List */}
       <div className="w-full md:w-1/3 space-y-4 overflow-y-auto md:max-h-[500px] pr-2">
         <div className="bg-white rounded-lg shadow-lg p-4">
-          <h3 className="text-xl font-bold text-teal-700 mb-2">Search Details</h3>
+          <h3 className="text-xl font-bold text-teal-700 mb-2">
+            Search Details
+          </h3>
           <p className="text-teal-600">
             <span className="font-semibold">Address:</span> {address}
           </p>
@@ -277,12 +429,12 @@ const MapPage = ({ address, medicine, pharmacies, onClearSearch }) => {
         </div>
 
         {pharmacies.map((pharmacy, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className={`p-4 rounded-lg ${
-              pharmacy.hasStock 
-                ? 'bg-green-50 border-2 border-green-300' 
-                : 'bg-red-50 border-2 border-red-300'
+              pharmacy.hasStock
+                ? "bg-green-50 border-2 border-green-300"
+                : "bg-red-50 border-2 border-red-300"
             } relative`}
           >
             <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md text-teal-600 font-bold">
@@ -291,10 +443,14 @@ const MapPage = ({ address, medicine, pharmacies, onClearSearch }) => {
             <h4 className="font-bold text-lg text-teal-800">{pharmacy.name}</h4>
             <p className="text-teal-700">{pharmacy.address}</p>
             <p className="text-teal-600">Distance: {pharmacy.distance}</p>
-            <div className={`mt-2 font-semibold ${pharmacy.hasStock ? 'text-green-700' : 'text-red-700'}`}>
-              {pharmacy.hasStock 
-                ? '✅ Medication in Stock' 
-                : '❌ Medication Not Available'}
+            <div
+              className={`mt-2 font-semibold ${
+                pharmacy.hasStock ? "text-green-700" : "text-red-700"
+              }`}
+            >
+              {pharmacy.hasStock
+                ? "✅ Medication in Stock"
+                : "❌ Medication Not Available"}
             </div>
           </div>
         ))}
@@ -303,47 +459,76 @@ const MapPage = ({ address, medicine, pharmacies, onClearSearch }) => {
   );
 };
 
-// SearchPage Component
+// Update SearchPage component's autocomplete functionality
 const SearchPage = () => {
-  const [address, setAddress] = useState('');
-  const [medicine, setMedicine] = useState('');
+  const [address, setAddress] = useState("");
+  const [medicine, setMedicine] = useState("");
+  const [pharmacies, setPharmacies] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
-  // Mock pharmacies data
-  const mockPharmacies = [
-    { 
-      name: "Wellness Pharmacy", 
-      address: "123 Health St", 
-      distance: "0.5 miles",
-      hasStock: Math.random() > 0.5
-    },
-    { 
-      name: "City Drug Store", 
-      address: "456 Wellness Ave", 
-      distance: "1.2 miles",
-      hasStock: Math.random() > 0.5
-    },
-    { 
-      name: "QuickMed Pharmacy", 
-      address: "789 Care Blvd", 
-      distance: "2.0 miles",
-      hasStock: Math.random() > 0.5
+  // Autocomplete hook for address input
+  const addressInputRef = useRef(null);
+  const [autocomplete, setAutocomplete] = useState(null);
+
+  useEffect(() => {
+    // Initialize autocomplete when Google Maps API is loaded
+    const initAutocomplete = () => {
+      if (window.google && addressInputRef.current && !autocomplete) {
+        try {
+          const autocompleteInstance =
+            new window.google.maps.places.Autocomplete(
+              addressInputRef.current,
+              { types: ["geocode"] }
+            );
+
+          autocompleteInstance.addListener("place_changed", () => {
+            const place = autocompleteInstance.getPlace();
+            if (place && place.formatted_address) {
+              setAddress(place.formatted_address);
+            }
+          });
+
+          setAutocomplete(autocompleteInstance);
+        } catch (error) {
+          console.error("Error initializing autocomplete:", error);
+        }
+      }
+    };
+
+    // Check if Google Maps API is loaded
+    if (window.google && window.google.maps && window.google.maps.places) {
+      initAutocomplete();
+    } else {
+      // If not loaded, set up a listener for when it loads
+      const checkGoogleMapsInterval = setInterval(() => {
+        if (window.google && window.google.maps && window.google.maps.places) {
+          initAutocomplete();
+          clearInterval(checkGoogleMapsInterval);
+        }
+      }, 500);
+
+      // Clear interval if component unmounts
+      return () => clearInterval(checkGoogleMapsInterval);
     }
-  ];
+  }, [addressInputRef.current, window.google]);
 
   const handleSearch = () => {
     // Validate inputs
     if (address.trim() && medicine.trim()) {
+      setIsSearching(true);
+      // The actual search happens in the GoogleMap component
       setShowResults(true);
     } else {
-      alert('Please enter both address and medicine name');
+      alert("Please enter both address and medicine name");
     }
   };
 
   const handleClearSearch = () => {
     setShowResults(false);
-    setAddress('');
-    setMedicine('');
+    setAddress("");
+    setMedicine("");
+    setPharmacies([]);
   };
 
   return (
@@ -351,11 +536,14 @@ const SearchPage = () => {
       <div className="container mx-auto p-4 md:p-8">
         {/* Search Input Section */}
         <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">Find Your Medication</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+            Find Your Medication
+          </h2>
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-            <input 
-              type="text" 
-              placeholder="Enter Address" 
+            <input
+              ref={addressInputRef}
+              type="text"
+              placeholder="Enter Address"
               value={address}
               onChange={(e) => {
                 setAddress(e.target.value);
@@ -363,9 +551,9 @@ const SearchPage = () => {
               }}
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
             />
-            <input 
-              type="text" 
-              placeholder="Enter Medicine Name" 
+            <input
+              type="text"
+              placeholder="Enter Medicine Name"
               value={medicine}
               onChange={(e) => {
                 setMedicine(e.target.value);
@@ -373,9 +561,10 @@ const SearchPage = () => {
               }}
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
             />
-            <button 
+            <button
               onClick={handleSearch}
               className="w-full md:w-auto bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition flex items-center justify-center"
+              disabled={isSearching}
             >
               <Search className="mr-2" /> Search
             </button>
@@ -384,10 +573,11 @@ const SearchPage = () => {
 
         {/* Results Section */}
         {showResults && (
-          <MapPage 
-            address={address} 
-            medicine={medicine} 
-            pharmacies={mockPharmacies}
+          <MapPage
+            address={address}
+            medicine={medicine}
+            pharmacies={pharmacies}
+            setPharmacies={setPharmacies}
             onClearSearch={handleClearSearch}
           />
         )}
@@ -405,9 +595,11 @@ const AboutPage = () => {
           About Find My Med
         </h2>
         <p className="text-teal-700 leading-relaxed mb-4">
-          Find My Med is an innovative platform designed by <strong>Imperial College London</strong> Students to simplify medication
-          access. Our mission is to connect patients with nearby pharmacies that
-          have the exact medicines they need during emergency or regular use.(HealthX Initiative)
+          Find My Med is an innovative platform designed by{" "}
+          <strong>Imperial College London</strong> Students to simplify
+          medication access. Our mission is to connect patients with nearby
+          pharmacies that have the exact medicines they need during emergency or
+          regular use.(HealthX Initiative)
         </p>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-teal-100 p-4 rounded-lg text-center md:text-left">
@@ -438,18 +630,18 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch("https://formspree.io/f/mnnpzdwa", {
         method: "POST",
         body: JSON.stringify({
           email: email,
-          message: message
+          message: message,
         }),
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       });
 
       if (response.ok) {
@@ -468,7 +660,9 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
       <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">Contact Us</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+          Contact Us
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
@@ -492,13 +686,15 @@ const ContactPage = () => {
             Send Message
           </button>
           {submissionStatus && (
-            <div className={`mt-4 p-3 rounded-lg text-center ${
-              submissionStatus.includes("successfully") 
-                ? "bg-green-100 text-green-700" 
-                : "bg-red-100 text-red-700"
-            }`}>
+            <div
+              className={`mt-4 p-3 rounded-lg text-center ${
+                submissionStatus.includes("successfully")
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
               {submissionStatus}
-          </div>
+            </div>
           )}
         </form>
       </div>
@@ -513,17 +709,17 @@ const NewsletterPage = () => {
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch("https://formspree.io/f/xjkyowlv", {
         method: "POST",
         body: JSON.stringify({
-          email: email
+          email: email,
         }),
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       });
 
       if (response.ok) {
@@ -560,11 +756,13 @@ const NewsletterPage = () => {
             Subscribe
           </button>
           {subscriptionStatus && (
-            <div className={`mt-4 p-3 rounded-lg text-center ${
-              subscriptionStatus.includes("Successfully") 
-                ? "bg-green-100 text-green-700" 
-                : "bg-red-100 text-red-700"
-            }`}>
+            <div
+              className={`mt-4 p-3 rounded-lg text-center ${
+                subscriptionStatus.includes("Successfully")
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
               {subscriptionStatus}
             </div>
           )}
@@ -573,6 +771,28 @@ const NewsletterPage = () => {
     </div>
   );
 };
+
+// Also update the GoogleMapsApiScript component to properly load the API
+const GoogleMapsApiScript = () => {
+  useEffect(() => {
+    // Only load if not already loaded
+    if (
+      !window.googleMapsLoaded &&
+      !document.getElementById("google-maps-script")
+    ) {
+      window.googleMapsLoaded = true;
+      const script = document.createElement("script");
+      script.id = "google-maps-script";
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places,geometry`;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }, []);
+
+  return null;
+};
+
 // Main App Component
 const FindMyMedApp = () => {
   const [currentPage, setCurrentPage] = useState("home");
@@ -596,6 +816,7 @@ const FindMyMedApp = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <GoogleMapsApiScript />
       <Header setCurrentPage={setCurrentPage} />
       {renderPage()}
     </div>
