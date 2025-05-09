@@ -41,6 +41,12 @@ const Header = ({ setCurrentPage }) => {
             <Info className="h-5 w-5" /> <span>About</span>
           </button>
           <button
+          onClick={() => setCurrentPage("blog")}
+          className="hover:text-teal-200 transition flex items-center space-x-1"
+        >
+          <Newspaper className="h-5 w-5" /> <span>Blog</span>
+        </button>
+          <button
             onClick={() => setCurrentPage("contact")}
             className="hover:text-teal-200 transition flex items-center space-x-1"
           >
@@ -100,6 +106,16 @@ const Header = ({ setCurrentPage }) => {
                 className="hover:text-teal-200 transition flex items-center space-x-2 text-xl"
               >
                 <Phone className="h-6 w-6" /> <span>Contact</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setCurrentPage("blog");
+                  setMobileMenuOpen(false);
+                }}
+                className="hover:text-teal-200 transition flex items-center space-x-2 text-xl"
+              >
+                <Newspaper className="h-6 w-6" /> <span>Blog</span>
               </button>
               <button
                 onClick={() => {
@@ -572,6 +588,19 @@ const SearchPage = () => {
           </div>
         </div>
 
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <Info className="h-5 w-5 text-yellow-500" />
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-yellow-700">
+                <strong>Note:</strong> Currently this is a Demo Website. The data is not real.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Results Section */}
         {showResults && (
           <MapPage
@@ -587,21 +616,43 @@ const SearchPage = () => {
   );
 };
 
+// Blog Page Component
+const BlogPage = () => {
+  return (
+    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
+      <div className="max-w-2xl bg-white p-6 md:p-10 rounded-xl shadow-lg text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+          Our Blog
+        </h2>
+        <div className="flex justify-center mb-6">
+          <Newspaper className="h-16 w-16 text-teal-500" />
+        </div>
+        <p className="text-xl font-bold text-teal-700 mb-4">Coming Soon!</p>
+        <p className="text-teal-600">
+          We're working on bringing you the latest healthcare insights, medication news, and helpful resources.
+          Check back soon for valuable content to help you manage your health.
+        </p>
+      </div>
+    </div>
+  );
+};
+
 // About Page Component
 const AboutPage = () => {
   return (
     <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="max-w-2xl bg-white p-6 md:p-10 rounded-xl shadow-lg">
+      <div className="max-w-4xl bg-white p-6 md:p-10 rounded-xl shadow-lg">
         <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
-          About Find My Med
+          About Medpals
         </h2>
         <p className="text-teal-700 leading-relaxed mb-4">
-          Find My Med is an innovative platform designed by{" "}
+          Medpals is an innovative platform designed by{" "}
           <strong>Imperial College London</strong> Students to simplify
           medication access. Our mission is to connect patients with nearby
           pharmacies that have the exact medicines they need during emergency or
-          regular use.(HealthX Initiative)
+          regular use (HealthX Initiative).
         </p>
+        
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-teal-100 p-4 rounded-lg text-center md:text-left">
             <h3 className="font-bold text-teal-600">Quick Search</h3>
@@ -616,6 +667,46 @@ const AboutPage = () => {
           <div className="bg-teal-100 p-4 rounded-lg text-center md:text-left">
             <h3 className="font-bold text-teal-600">User Friendly</h3>
             <p className="text-teal-700">Simple and intuitive interface</p>
+          </div>
+        </div>
+        
+        {/* Founders Section */}
+        <div className="mt-12">
+          <h3 className="text-xl md:text-2xl font-bold mb-6 text-teal-600 text-center">
+            Meet Our Founders
+          </h3>
+          
+          {/* Group Photo */}
+          <div className="bg-teal-50 p-6 rounded-lg shadow-lg mb-6">
+            <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg mb-6">
+              <div className="flex items-center justify-center bg-teal-100 h-64 md:h-80">
+                <img 
+                  src="Founders.jpeg" 
+                  alt="Medpals Founding Team" 
+                  className="w-full h-full object-cover rounded-lg shadow-md"
+                />
+              </div>
+            </div>
+            
+            <div className="text-center md:text-left">
+              <h4 className="font-bold text-lg text-teal-700 mb-2">The Founding Team</h4>
+              <p className="text-teal-700 mb-4">
+                Our team consists of six passionate Imperial College London students from diverse academic backgrounds including Computer Science, Medicine, and Business. United by a shared vision to revolutionize medication accessibility, we created Medpals as part of the HealthX Initiative.
+              </p>
+              <p className="text-teal-700">
+                Together, we combine technical expertise, healthcare knowledge, and entrepreneurial spirit to tackle the challenges of medication access. Our mission is to ensure that everyone can quickly find the medications they need, when they need them.
+              </p>
+            </div>
+          </div>
+          
+          <div className="bg-teal-50 p-6 rounded-lg shadow-lg">
+            <h4 className="font-bold text-lg text-teal-700 mb-4 text-center">Our Vision</h4>
+            <p className="text-teal-700 mb-4">
+              We envision a world where medication access is never a barrier to health and wellbeing. By bridging the gap between patients and pharmacies, we aim to reduce the stress and uncertainty that often accompanies the search for critical medications.
+            </p>
+            <p className="text-teal-700">
+              Medpals represents our commitment to leveraging technology for healthcare solutions that make a meaningful difference in people's everyday lives. As students at Imperial College London, we're dedicated to continuous innovation and improvement of our platform based on user feedback and evolving healthcare needs.
+            </p>
           </div>
         </div>
       </div>
@@ -806,6 +897,8 @@ const FindMyMedApp = () => {
         return <SearchPage />;
       case "about":
         return <AboutPage />;
+      case "blog":
+        return <BlogPage />;
       case "contact":
         return <ContactPage />;
       case "newsletter":
