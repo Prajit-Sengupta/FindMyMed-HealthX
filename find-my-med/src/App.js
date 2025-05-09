@@ -21,8 +21,9 @@ const Header = ({ setCurrentPage }) => {
     <header className="bg-teal-700 text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <Heart className="h-8 w-8" />
-          <h1 className="text-2xl font-bold">Find My Med</h1>
+          {/* <Heart className="h-8 w-8" /> */}
+          <img src="logo.png" alt="Logo" style={{ width: '150px', height: 'auto' }}/>
+          {/* <h1 className="text-2xl font-bold">medpals</h1> */}
         </div>
 
         {/* Desktop Navigation */}
@@ -182,7 +183,7 @@ const LandingPage = ({ setCurrentPage }) => {
         <div className="w-full md:w-1/2 hidden md:block">
           <div className="bg-teal-100 rounded-xl p-8 flex items-center justify-center">
             <img
-              src="image.png"
+              src="landing_image.png"
               alt="Healthcare Illustration"
               className="rounded-lg shadow-lg"
             />
