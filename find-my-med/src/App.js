@@ -691,7 +691,7 @@ const AboutPage = () => {
             <div className="text-center md:text-left">
               <h4 className="font-bold text-lg text-teal-700 mb-2">The Founding Team</h4>
               <p className="text-teal-700 mb-4">
-                Our team consists of six passionate Imperial College London students from diverse academic backgrounds including Computer Science, Medicine, and Business. United by a shared vision to revolutionize medication accessibility, we created Medpals as part of the HealthX Initiative.
+                Our team consists of six passionate Imperial College London and Royal College of Arts students from diverse academic backgrounds including Computer Science, Medicine, UI/UX and Business. United by a shared vision to revolutionize medication accessibility, we created Medpals as part of the HealthX Initiative.
               </p>
               <p className="text-teal-700">
                 Together, we combine technical expertise, healthcare knowledge, and entrepreneurial spirit to tackle the challenges of medication access. Our mission is to ensure that everyone can quickly find the medications they need, when they need them.
