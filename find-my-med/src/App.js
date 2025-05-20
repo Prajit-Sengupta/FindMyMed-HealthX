@@ -12,7 +12,6 @@ import {
   Menu,
 } from "lucide-react";
 
-
 // Header Component with Mobile Navigation
 const Header = ({ setCurrentPage }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,7 +21,11 @@ const Header = ({ setCurrentPage }) => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           {/* <Heart className="h-8 w-8" /> */}
-          <img src="logo.png" alt="Logo" style={{ width: '150px', height: 'auto' }}/>
+          <img
+            src="logo.png"
+            alt="Logo"
+            style={{ width: "150px", height: "auto" }}
+          />
           {/* <h1 className="text-2xl font-bold">medpals</h1> */}
         </div>
 
@@ -41,11 +44,11 @@ const Header = ({ setCurrentPage }) => {
             <Info className="h-5 w-5" /> <span>About</span>
           </button>
           <button
-          onClick={() => setCurrentPage("blog")}
-          className="hover:text-teal-200 transition flex items-center space-x-1"
-        >
-          <Newspaper className="h-5 w-5" /> <span>Blog</span>
-        </button>
+            onClick={() => setCurrentPage("blog")}
+            className="hover:text-teal-200 transition flex items-center space-x-1"
+          >
+            <Newspaper className="h-5 w-5" /> <span>Blog</span>
+          </button>
           <button
             onClick={() => setCurrentPage("contact")}
             className="hover:text-teal-200 transition flex items-center space-x-1"
@@ -53,10 +56,10 @@ const Header = ({ setCurrentPage }) => {
             <Phone className="h-5 w-5" /> <span>Contact</span>
           </button>
           <button
-            onClick={() => setCurrentPage("newsletter")}
-            className="hover:text-teal-200 transition flex items-center space-x-1"
+            onClick={() => setCurrentPage("waitlist")}
+            className="bg-teal-500 hover:bg-teal-400 px-4 py-2 rounded transition flex items-center space-x-1"
           >
-            <Newspaper className="h-5 w-5" /> <span>Newsletter</span>
+            <Heart className="h-5 w-5" /> <span>Join Waitlist</span>
           </button>
         </nav>
 
@@ -119,12 +122,12 @@ const Header = ({ setCurrentPage }) => {
               </button>
               <button
                 onClick={() => {
-                  setCurrentPage("newsletter");
+                  setCurrentPage("waitlist");
                   setMobileMenuOpen(false);
                 }}
-                className="hover:text-teal-200 transition flex items-center space-x-2 text-xl"
+                className="bg-teal-500 hover:bg-teal-400 px-4 py-2 rounded-lg transition flex items-center space-x-2 text-xl"
               >
-                <Newspaper className="h-6 w-6" /> <span>Newsletter</span>
+                <Heart className="h-6 w-6" /> <span>Join Waitlist</span>
               </button>
             </nav>
           </div>
@@ -135,10 +138,12 @@ const Header = ({ setCurrentPage }) => {
 };
 
 // Landing Page Component
+// Landing Page Component with Demo Section
 const LandingPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-teal-50 flex items-center">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+    <div className="min-h-screen bg-teal-50">
+      {/* Hero Section */}
+      <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between">
         {/* Text Content */}
         <div className="w-full md:w-1/2 md:pr-12 text-center md:text-left mb-8 md:mb-0">
           <h1 className="text-3xl md:text-5xl font-bold text-teal-800 mb-6 leading-tight">
@@ -156,41 +161,32 @@ const LandingPage = ({ setCurrentPage }) => {
               Get Started <ChevronRight className="ml-2" />
             </button>
             <button
-              onClick={() => setCurrentPage("about")}
-              className="bg-white text-teal-700 px-6 py-3 rounded-lg border border-teal-600 hover:bg-teal-50 transition flex items-center justify-center"
+              onClick={() => setCurrentPage("waitlist")}
+              className="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition flex items-center justify-center"
             >
-              Learn More <Info className="ml-2" />
+              Join Waitlist <Heart className="ml-2" />
             </button>
           </div>
 
-          {/* Feature Highlights */}
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <Heart className="h-8 w-8 text-teal-600 mb-2 mx-auto md:mx-0" />
-              <h3 className="font-bold text-teal-800 text-center md:text-left">
-                Quick Search
-              </h3>
-              <p className="text-sm text-teal-700 text-center md:text-left">
-                Find meds instantly
-              </p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <MapPin className="h-8 w-8 text-teal-600 mb-2 mx-auto md:mx-0" />
-              <h3 className="font-bold text-teal-800 text-center md:text-left">
-                Nearby Pharmacies
-              </h3>
-              <p className="text-sm text-teal-700 text-center md:text-left">
-                Location-based results
-              </p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <Cross className="h-8 w-8 text-teal-600 mb-2 mx-auto md:mx-0" />
-              <h3 className="font-bold text-teal-800 text-center md:text-left">
-                Accurate Info
-              </h3>
-              <p className="text-sm text-teal-700 text-center md:text-left">
-                Reliable medication data
-              </p>
+          {/* Waitlist Banner */}
+          <div className="mt-8 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded shadow-sm">
+            <div className="flex items-start">
+              <Info className="h-6 w-6 text-yellow-500 flex-shrink-0 mt-0.5" />
+              <div className="ml-3">
+                <h3 className="font-medium text-yellow-800">
+                  Early Access Coming Soon!
+                </h3>
+                <p className="text-yellow-700 mt-1">
+                  We're launching in select areas soon. Join our waitlist to be
+                  notified when MedPals is available in your area.
+                </p>
+                <button
+                  onClick={() => setCurrentPage("waitlist")}
+                  className="mt-2 text-teal-600 font-medium hover:text-teal-800"
+                >
+                  Sign up for updates →
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -206,10 +202,103 @@ const LandingPage = ({ setCurrentPage }) => {
           </div>
         </div>
       </div>
+
+      {/* Demo Section */}
+      <div className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-teal-800 mb-4">
+              See MedPals in Action
+            </h2>
+            <p className="text-lg text-teal-700 max-w-3xl mx-auto">
+              Explore our interactive prototype and experience how simple it is
+              to find your medications at nearby pharmacies.
+            </p>
+          </div>
+
+          {/* Demo Container */}
+          <div className="max-w-5xl mx-auto rounded-xl overflow-hidden shadow-xl">
+            {/* Figma Embed - Replace the URL with your actual Figma prototype URL */}
+            <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+              {" "}
+              {/* 16:9 aspect ratio */}
+              <iframe
+                style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }}
+                width="800"
+                height="450"
+                src="https://embed.figma.com/proto/2zV31XYMbzLH75i9NH0QgY/Medication-Finder-App?node-id=24-5525&p=f&scaling=min-zoom&content-scaling=fixed&page-id=24%3A4605&starting-point-node-id=24%3A5614&show-proto-sidebar=1&embed-host=share"
+                allowfullscreen
+              ></iframe>
+            </div>
+
+            {/* Uncomment this and comment out the Figma embed above if you want to use a video instead */}
+            {/* <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+              <iframe
+                className="absolute inset-0 w-full h-full rounded-lg"
+                src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID"
+                title="MedPals Demo"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div> */}
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-teal-700 mb-4">
+              Interested in early access to MedPals?
+            </p>
+            <button
+              onClick={() => setCurrentPage("waitlist")}
+              className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition"
+            >
+              Join the Waitlist Today
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Feature Highlights Section */}
+      <div className="py-16 bg-teal-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-teal-800 mb-12 text-center">
+            Why Choose MedPals?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <Heart className="h-12 w-12 text-teal-600 mb-4 mx-auto md:mx-0" />
+              <h3 className="text-xl font-bold text-teal-800 text-center md:text-left mb-2">
+                Quick Search
+              </h3>
+              <p className="text-teal-700 text-center md:text-left">
+                Find medications instantly with our powerful search.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <MapPin className="h-12 w-12 text-teal-600 mb-4 mx-auto md:mx-0" />
+              <h3 className="text-xl font-bold text-teal-800 text-center md:text-left mb-2">
+                Nearby Pharmacies
+              </h3>
+              <p className="text-teal-700 text-center md:text-left">
+                Locate pharmacies with your medication in stock, sorted by
+                distance.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <Cross className="h-12 w-12 text-teal-600 mb-4 mx-auto md:mx-0" />
+              <h3 className="text-xl font-bold text-teal-800 text-center md:text-left mb-2">
+                Accurate Info
+              </h3>
+              <p className="text-teal-700 text-center md:text-left">
+                Get real-time stock information to make informed decisions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
 // GoogleMap Component - Fixed version
 const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
   const mapContainerRef = useRef(null);
@@ -310,65 +399,67 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
                   placeLocation
                 );
               const distanceInMiles = (distanceInMeters / 1609.34).toFixed(1);
-              
+
               return {
                 place,
                 distance: parseFloat(distanceInMiles),
                 distanceText: `${distanceInMiles} miles`,
-                location: placeLocation
+                location: placeLocation,
               };
             });
-            
+
             // Sort pharmacies by distance (closest first)
             pharmaciesWithDistance.sort((a, b) => a.distance - b.distance);
-            
+
             // Take only the closest 3 pharmacies
             const nearbyPharmacies = pharmaciesWithDistance.slice(0, 3);
-        
+
             // Create updated pharmacies list with real data
-            const updatedPharmacies = nearbyPharmacies.map((pharmacy, index) => {
-              // Add pharmacy marker
-              const marker = new window.google.maps.Marker({
-                position: pharmacy.location,
-                map: mapRef,
-                icon: {
-                  url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-                  scaledSize: new window.google.maps.Size(40, 40),
-                },
-                label: {
-                  text: (index + 1).toString(),
-                  color: "white",
-                  fontSize: "14px",
-                },
-                title: pharmacy.place.name,
-              });
-        
-              newMarkers.push(marker);
-        
-              // Create info window
-              const infoWindow = new window.google.maps.InfoWindow({
-                content: `<div><strong>${pharmacy.place.name}</strong><br/>${pharmacy.place.vicinity}<br/>${pharmacy.distanceText}</div>`,
-              });
-        
-              marker.addListener("click", () => {
-                infoWindow.open(mapRef, marker);
-              });
-        
-              // Randomly determine if medication is in stock
-              const hasStock = Math.random() > 0.5;
-        
-              return {
-                name: pharmacy.place.name,
-                address: pharmacy.place.vicinity,
-                distance: pharmacy.distanceText,
-                hasStock,
-                location: {
-                  lat: pharmacy.location.lat(),
-                  lng: pharmacy.location.lng(),
-                },
-              };
-            });
-        
+            const updatedPharmacies = nearbyPharmacies.map(
+              (pharmacy, index) => {
+                // Add pharmacy marker
+                const marker = new window.google.maps.Marker({
+                  position: pharmacy.location,
+                  map: mapRef,
+                  icon: {
+                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                    scaledSize: new window.google.maps.Size(40, 40),
+                  },
+                  label: {
+                    text: (index + 1).toString(),
+                    color: "white",
+                    fontSize: "14px",
+                  },
+                  title: pharmacy.place.name,
+                });
+
+                newMarkers.push(marker);
+
+                // Create info window
+                const infoWindow = new window.google.maps.InfoWindow({
+                  content: `<div><strong>${pharmacy.place.name}</strong><br/>${pharmacy.place.vicinity}<br/>${pharmacy.distanceText}</div>`,
+                });
+
+                marker.addListener("click", () => {
+                  infoWindow.open(mapRef, marker);
+                });
+
+                // Randomly determine if medication is in stock
+                const hasStock = Math.random() > 0.5;
+
+                return {
+                  name: pharmacy.place.name,
+                  address: pharmacy.place.vicinity,
+                  distance: pharmacy.distanceText,
+                  hasStock,
+                  location: {
+                    lat: pharmacy.location.lat(),
+                    lng: pharmacy.location.lng(),
+                  },
+                };
+              }
+            );
+
             // Update the pharmacies state in parent component
             if (pharmacies.setPharmacies) {
               pharmacies.setPharmacies(updatedPharmacies);
@@ -595,7 +686,8 @@ const SearchPage = () => {
             </div>
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
-                <strong>Note:</strong> Currently this is a Demo Website. The data is not real.
+                <strong>Note:</strong> Currently this is a Demo Website. The
+                data is not real.
               </p>
             </div>
           </div>
@@ -616,6 +708,204 @@ const SearchPage = () => {
   );
 };
 
+// Waitlist Page Component
+const WaitlistPage = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    postcode: "",
+    reason: "",
+    updates: true,
+  });
+  const [submissionStatus, setSubmissionStatus] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Replace with your actual FormSpree endpoint or other form processing service
+      const response = await fetch("https://formspree.io/f/xjkyowlv", {
+        method: "POST",
+        body: JSON.stringify({
+          ...formData,
+          interest_type: "waitlist",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setSubmissionStatus(
+          "You've been added to our waitlist! We'll notify you when MedPals launches in your area."
+        );
+        // Reset form data
+        setFormData({
+          name: "",
+          email: "",
+          postcode: "",
+          reason: "",
+          updates: true,
+        });
+      } else {
+        setSubmissionStatus("Submission failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      setSubmissionStatus("An error occurred. Please try again later.");
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
+      <div className="w-full max-w-lg bg-white p-6 md:p-8 rounded-xl shadow-lg">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-teal-600">
+          Join the MedPals Waitlist
+        </h2>
+        <p className="text-teal-700 mb-6">
+          Be the first to know when MedPals launches in your area. Join our
+          waitlist for early access and updates.
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-teal-700 mb-1 font-medium"
+            >
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Your name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-teal-700 mb-1 font-medium"
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your.email@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="postcode"
+              className="block text-teal-700 mb-1 font-medium"
+            >
+              Postcode
+            </label>
+            <input
+              type="text"
+              id="postcode"
+              name="postcode"
+              placeholder="Your postcode"
+              value={formData.postcode}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              required
+            />
+            <p className="text-sm text-teal-600 mt-1">
+              This helps us prioritize areas for our initial launch
+            </p>
+          </div>
+
+          <div>
+            <label
+              htmlFor="reason"
+              className="block text-teal-700 mb-1 font-medium"
+            >
+              Why are you interested in MedPals?
+            </label>
+            <select
+              id="reason"
+              name="reason"
+              value={formData.reason}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              required
+            >
+              <option value="">Select a reason</option>
+              <option value="personal">For personal medication needs</option>
+              <option value="family">For family medication needs</option>
+              <option value="professional">
+                I'm a healthcare professional
+              </option>
+              <option value="business">For business opportunities</option>
+              <option value="other">Other reason</option>
+            </select>
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="updates"
+              name="updates"
+              checked={formData.updates}
+              onChange={handleChange}
+              className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+            />
+            <label htmlFor="updates" className="ml-2 block text-teal-700">
+              Keep me updated on MedPals news and developments
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition font-medium"
+          >
+            Join Waitlist
+          </button>
+
+          {submissionStatus && (
+            <div
+              className={`mt-4 p-3 rounded-lg text-center ${
+                submissionStatus.includes("added to our waitlist")
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {submissionStatus}
+            </div>
+          )}
+
+          <p className="text-sm text-gray-600 mt-4">
+            By signing up, you agree to our Terms of Service and Privacy Policy.
+            We'll only use your information to provide updates about MedPals.
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // Blog Page Component
 const BlogPage = () => {
   return (
@@ -629,8 +919,9 @@ const BlogPage = () => {
         </div>
         <p className="text-xl font-bold text-teal-700 mb-4">Coming Soon!</p>
         <p className="text-teal-600">
-          We're working on bringing you the latest healthcare insights, medication news, and helpful resources.
-          Check back soon for valuable content to help you manage your health.
+          We're working on bringing you the latest healthcare insights,
+          medication news, and helpful resources. Check back soon for valuable
+          content to help you manage your health.
         </p>
       </div>
     </div>
@@ -652,7 +943,7 @@ const AboutPage = () => {
           pharmacies that have the exact medicines they need during emergency or
           regular use (HealthX Initiative).
         </p>
-        
+
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-teal-100 p-4 rounded-lg text-center md:text-left">
             <h3 className="font-bold text-teal-600">Quick Search</h3>
@@ -669,43 +960,61 @@ const AboutPage = () => {
             <p className="text-teal-700">Simple and intuitive interface</p>
           </div>
         </div>
-        
+
         {/* Founders Section */}
         <div className="mt-12">
           <h3 className="text-xl md:text-2xl font-bold mb-6 text-teal-600 text-center">
             Meet Our Founders
           </h3>
-          
+
           {/* Group Photo */}
           <div className="bg-teal-50 p-6 rounded-lg shadow-lg mb-6">
             <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg mb-6">
               <div className="flex items-center justify-center bg-teal-100 h-64 md:h-80">
-                <img 
-                  src="Founders.jpeg" 
-                  alt="Medpals Founding Team" 
+                <img
+                  src="Founders.jpeg"
+                  alt="Medpals Founding Team"
                   className="w-full h-full object-cover rounded-lg shadow-md"
                 />
               </div>
             </div>
-            
+
             <div className="text-center md:text-left">
-              <h4 className="font-bold text-lg text-teal-700 mb-2">The Founding Team</h4>
+              <h4 className="font-bold text-lg text-teal-700 mb-2">
+                The Founding Team
+              </h4>
               <p className="text-teal-700 mb-4">
-                Our team consists of six passionate Imperial College London and Royal College of Arts students from diverse academic backgrounds including Computer Science, Medicine, UI/UX and Business. United by a shared vision to revolutionize medication accessibility, we created Medpals as part of the HealthX Initiative.
+                Our team consists of six passionate Imperial College London and
+                Royal College of Arts students from diverse academic backgrounds
+                including Computer Science, Medicine, UI/UX and Business. United
+                by a shared vision to revolutionize medication accessibility, we
+                created Medpals as part of the HealthX Initiative.
               </p>
               <p className="text-teal-700">
-                Together, we combine technical expertise, healthcare knowledge, and entrepreneurial spirit to tackle the challenges of medication access. Our mission is to ensure that everyone can quickly find the medications they need, when they need them.
+                Together, we combine technical expertise, healthcare knowledge,
+                and entrepreneurial spirit to tackle the challenges of
+                medication access. Our mission is to ensure that everyone can
+                quickly find the medications they need, when they need them.
               </p>
             </div>
           </div>
-          
+
           <div className="bg-teal-50 p-6 rounded-lg shadow-lg">
-            <h4 className="font-bold text-lg text-teal-700 mb-4 text-center">Our Vision</h4>
+            <h4 className="font-bold text-lg text-teal-700 mb-4 text-center">
+              Our Vision
+            </h4>
             <p className="text-teal-700 mb-4">
-              We envision a world where medication access is never a barrier to health and wellbeing. By bridging the gap between patients and pharmacies, we aim to reduce the stress and uncertainty that often accompanies the search for critical medications.
+              We envision a world where medication access is never a barrier to
+              health and wellbeing. By bridging the gap between patients and
+              pharmacies, we aim to reduce the stress and uncertainty that often
+              accompanies the search for critical medications.
             </p>
             <p className="text-teal-700">
-              Medpals represents our commitment to leveraging technology for healthcare solutions that make a meaningful difference in people's everyday lives. As students at Imperial College London, we're dedicated to continuous innovation and improvement of our platform based on user feedback and evolving healthcare needs.
+              Medpals represents our commitment to leveraging technology for
+              healthcare solutions that make a meaningful difference in people's
+              everyday lives. As students at Imperial College London, we're
+              dedicated to continuous innovation and improvement of our platform
+              based on user feedback and evolving healthcare needs.
             </p>
           </div>
         </div>
@@ -903,6 +1212,8 @@ const FindMyMedApp = () => {
         return <ContactPage />;
       case "newsletter":
         return <NewsletterPage />;
+      case "waitlist":
+        return <WaitlistPage />;
       default:
         return <LandingPage setCurrentPage={setCurrentPage} />;
     }
