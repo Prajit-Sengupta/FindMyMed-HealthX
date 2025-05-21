@@ -177,8 +177,8 @@ const LandingPage = ({ setCurrentPage }) => {
                   Early Access Coming Soon!
                 </h3>
                 <p className="text-yellow-700 mt-1">
-                  We're launching in select areas soon. Join our waitlist to be
-                  notified when MedPals is available in your area.
+                  We're launching in selected areas soon. Join our waitlist to
+                  be notified when MedPals is available in your area.
                 </p>
               </div>
             </div>
