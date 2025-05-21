@@ -1024,16 +1024,14 @@ const AboutPage = () => {
             Meet Our Founders
           </h3>
 
-          {/* Group Photo */}
+          {/* Group Photo - No Cropping Version */}
           <div className="bg-teal-50 p-6 rounded-lg shadow-lg mb-6">
-            <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg mb-6">
-              <div className="flex items-center justify-center bg-teal-100 h-64 md:h-80">
-                <img
-                  src="Founders.jpeg"
-                  alt="Medpals Founding Team"
-                  className="w-full h-full object-cover rounded-lg shadow-md"
-                />
-              </div>
+            <div className="rounded-lg mb-6 overflow-hidden">
+              <img
+                src="Founders.jpeg"
+                alt="Medpals Founding Team"
+                className="w-full h-auto max-w-full rounded-lg shadow-md"
+              />
             </div>
 
             <div className="text-center md:text-left">
@@ -1055,7 +1053,6 @@ const AboutPage = () => {
               </p>
             </div>
           </div>
-
           <div className="bg-teal-50 p-6 rounded-lg shadow-lg">
             <h4 className="font-bold text-lg text-teal-700 mb-4 text-center">
               Our Vision
