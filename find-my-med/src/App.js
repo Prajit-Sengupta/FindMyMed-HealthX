@@ -224,7 +224,7 @@ const LandingPage = ({ setCurrentPage }) => {
                 Quick Search
               </h3>
               <p className="text-teal-700 text-center md:text-left">
-                Find medications instantly with our powerful search.
+                Find medicines instantly with our easy-to-use search feature.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
@@ -233,8 +233,7 @@ const LandingPage = ({ setCurrentPage }) => {
                 Nearby Pharmacies
               </h3>
               <p className="text-teal-700 text-center md:text-left">
-                Locate pharmacies with your medication in stock, sorted by
-                distance.
+                Locate nearby pharmacies with your medication in stock
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
