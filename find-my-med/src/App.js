@@ -17,47 +17,45 @@ const Header = ({ setCurrentPage }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-teal-700 text-white p-4 shadow-md">
+    <header className="bg-gradient-to-r from-blue-600 to-teal-500 text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          {/* <Heart className="h-8 w-8" /> */}
           <img
             src="logo.png"
             alt="Logo"
             style={{ width: "150px", height: "auto" }}
           />
-          {/* <h1 className="text-2xl font-bold">medpals</h1> */}
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
           <button
             onClick={() => setCurrentPage("home")}
-            className="hover:text-teal-200 transition flex items-center space-x-1"
+            className="hover:text-blue-200 transition flex items-center space-x-1"
           >
             <Search className="h-5 w-5" /> <span>Home</span>
           </button>
           <button
             onClick={() => setCurrentPage("about")}
-            className="hover:text-teal-200 transition flex items-center space-x-1"
+            className="hover:text-blue-200 transition flex items-center space-x-1"
           >
             <Info className="h-5 w-5" /> <span>About</span>
           </button>
           <button
             onClick={() => setCurrentPage("blog")}
-            className="hover:text-teal-200 transition flex items-center space-x-1"
+            className="hover:text-blue-200 transition flex items-center space-x-1"
           >
             <Newspaper className="h-5 w-5" /> <span>Blog</span>
           </button>
           <button
             onClick={() => setCurrentPage("contact")}
-            className="hover:text-teal-200 transition flex items-center space-x-1"
+            className="hover:text-blue-200 transition flex items-center space-x-1"
           >
             <Phone className="h-5 w-5" /> <span>Contact</span>
           </button>
           <button
             onClick={() => setCurrentPage("waitlist")}
-            className="bg-teal-500 hover:bg-teal-400 px-4 py-2 rounded transition flex items-center space-x-1"
+            className="bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded transition flex items-center space-x-1"
           >
             <Heart className="h-5 w-5" /> <span>Join Waitlist</span>
           </button>
@@ -73,7 +71,7 @@ const Header = ({ setCurrentPage }) => {
 
         {/* Mobile Navigation Overlay */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-teal-700 z-50 md:hidden">
+          <div className="fixed inset-0 bg-gradient-to-r from-blue-600 to-teal-500 z-50 md:hidden">
             <div className="flex justify-end p-4">
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -88,7 +86,7 @@ const Header = ({ setCurrentPage }) => {
                   setCurrentPage("home");
                   setMobileMenuOpen(false);
                 }}
-                className="hover:text-teal-200 transition flex items-center space-x-2 text-xl"
+                className="hover:text-blue-200 transition flex items-center space-x-2 text-xl"
               >
                 <Search className="h-6 w-6" /> <span>Home</span>
               </button>
@@ -97,7 +95,7 @@ const Header = ({ setCurrentPage }) => {
                   setCurrentPage("about");
                   setMobileMenuOpen(false);
                 }}
-                className="hover:text-teal-200 transition flex items-center space-x-2 text-xl"
+                className="hover:text-blue-200 transition flex items-center space-x-2 text-xl"
               >
                 <Info className="h-6 w-6" /> <span>About</span>
               </button>
@@ -106,17 +104,16 @@ const Header = ({ setCurrentPage }) => {
                   setCurrentPage("contact");
                   setMobileMenuOpen(false);
                 }}
-                className="hover:text-teal-200 transition flex items-center space-x-2 text-xl"
+                className="hover:text-blue-200 transition flex items-center space-x-2 text-xl"
               >
                 <Phone className="h-6 w-6" /> <span>Contact</span>
               </button>
-
               <button
                 onClick={() => {
                   setCurrentPage("blog");
                   setMobileMenuOpen(false);
                 }}
-                className="hover:text-teal-200 transition flex items-center space-x-2 text-xl"
+                className="hover:text-blue-200 transition flex items-center space-x-2 text-xl"
               >
                 <Newspaper className="h-6 w-6" /> <span>Blog</span>
               </button>
@@ -125,7 +122,7 @@ const Header = ({ setCurrentPage }) => {
                   setCurrentPage("waitlist");
                   setMobileMenuOpen(false);
                 }}
-                className="bg-teal-500 hover:bg-teal-400 px-4 py-2 rounded-lg transition flex items-center space-x-2 text-xl"
+                className="bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-lg transition flex items-center space-x-2 text-xl"
               >
                 <Heart className="h-6 w-6" /> <span>Join Waitlist</span>
               </button>
@@ -137,54 +134,54 @@ const Header = ({ setCurrentPage }) => {
   );
 };
 
-// Landing Page Component
-// Landing Page Component with Demo Section
+// Landing Page Component with Updated Colors
 const LandingPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between">
         {/* Text Content */}
         <div className="w-full md:w-1/2 md:pr-12 text-center md:text-left mb-8 md:mb-0">
-          <h1 className="text-3xl md:text-5xl font-bold text-teal-800 mb-6 leading-tight">
-            Connecting You with Your Medications
+          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent mb-6 leading-tight">
+            Track it. Trace it. Take it
           </h1>
-          <p className="text-lg md:text-xl text-teal-700 mb-8">
-            Quickly find pharmacies near you that have the exact medications you
-            need. Simple, fast, and reliable healthcare navigation.
+          <p className="text-lg md:text-xl text-gray-700 mb-8">
+            Medpals connects you to the medications you need. Quickly, easily
+            and with care. Whether it's a life-saving prescription at your local
+            chemist, we ensure you're supported every step of the way.
           </p>
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-4 md:space-y-0 md:space-x-4">
             <button
               onClick={() => setCurrentPage("search")}
-              className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition flex items-center justify-center"
+              className="bg-gradient-to-r from-blue-600 to-teal-500 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-teal-600 transition flex items-center justify-center shadow-lg"
             >
-              Get Started <ChevronRight className="ml-2" />
+              Learn More <ChevronRight className="ml-2" />
             </button>
             <button
               onClick={() => setCurrentPage("waitlist")}
-              className="bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition flex items-center justify-center"
+              className="bg-white text-blue-600 border-2 border-blue-600 px-8 py-3 rounded-full hover:bg-blue-50 transition flex items-center justify-center shadow-lg"
             >
-              Join Waitlist <Heart className="ml-2" />
+              Demo
             </button>
           </div>
 
           {/* Waitlist Banner */}
-          <div className="mt-8 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded shadow-sm">
+          <div className="mt-8 bg-gradient-to-r from-blue-50 to-teal-50 border-l-4 border-blue-400 p-4 rounded shadow-sm">
             <div className="flex items-start">
-              <Info className="h-6 w-6 text-yellow-500 flex-shrink-0 mt-0.5" />
+              <Info className="h-6 w-6 text-blue-500 flex-shrink-0 mt-0.5" />
               <div className="ml-3">
-                <h3 className="font-medium text-yellow-800">
-                  Early Access Coming Soon!
+                <h3 className="font-medium text-blue-800">
+                  We're rolling out soon.
                 </h3>
-                <p className="text-yellow-700 mt-1">
-                  We're launching in select areas soon. Join our waitlist to be
-                  notified when MedPals is available in your area.
+                <p className="text-blue-700 mt-1">
+                  We're launching in selected areas soon. Join the waitlist and
+                  be the first to know when medpals is available near you.
                 </p>
                 <button
                   onClick={() => setCurrentPage("waitlist")}
-                  className="mt-2 text-teal-600 font-medium hover:text-teal-800"
+                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition text-sm"
                 >
-                  Sign up for updates →
+                  Join our waitlist →
                 </button>
               </div>
             </div>
@@ -193,7 +190,7 @@ const LandingPage = ({ setCurrentPage }) => {
 
         {/* Illustration Placeholder */}
         <div className="w-full md:w-1/2 hidden md:block">
-          <div className="bg-teal-100 rounded-xl p-8 flex items-center justify-center">
+          <div className="bg-gradient-to-br from-blue-100 to-teal-100 rounded-xl p-8 flex items-center justify-center">
             <img
               src="landing_image.png"
               alt="Healthcare Illustration"
@@ -203,95 +200,36 @@ const LandingPage = ({ setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Demo Section */}
+      {/* Our Product Section */}
       <div className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-teal-800 mb-4">
-              See MedPals in Action
-            </h2>
-            <p className="text-lg text-teal-700 max-w-3xl mx-auto">
-              Explore our interactive prototype and experience how simple it is
-              to find your medications at nearby pharmacies.
-            </p>
+          {/* Product Journey Image */}
+          <div className="w-full max-w-6xl mx-auto mb-12">
+            <img
+              src="Frame 35.jpeg"
+              alt="Sofia's journey using MedPals - from searching for medication to finding nearby pharmacies"
+              className="w-full h-auto rounded-2xl shadow-lg"
+            />
           </div>
 
-          {/* Demo Container */}
-          <div className="max-w-5xl mx-auto rounded-xl overflow-hidden shadow-xl">
-            {/* Figma Embed - Replace the URL with your actual Figma prototype URL */}
-            <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
-              {" "}
-              {/* 16:9 aspect ratio */}
-              <iframe
-                style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }}
-                width="800"
-                height="450"
-                src="https://embed.figma.com/proto/2zV31XYMbzLH75i9NH0QgY/Medication-Finder-App?node-id=24-5525&p=f&scaling=min-zoom&content-scaling=fixed&page-id=24%3A4605&starting-point-node-id=24%3A5614&show-proto-sidebar=1&embed-host=share"
-                allowfullscreen
-              ></iframe>
-            </div>
-
-            {/* Uncomment this and comment out the Figma embed above if you want to use a video instead */}
-            {/* <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
-              <iframe
-                className="absolute inset-0 w-full h-full rounded-lg"
-                src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID"
-                title="MedPals Demo"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div> */}
-          </div>
-
-          <div className="text-center mt-8">
-            <p className="text-teal-700 mb-4">
-              Interested in early access to MedPals?
-            </p>
-            <button
-              onClick={() => setCurrentPage("waitlist")}
-              className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition"
-            >
-              Join the Waitlist Today
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Feature Highlights Section */}
-      <div className="py-16 bg-teal-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-teal-800 mb-12 text-center">
-            Why Choose MedPals?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <Heart className="h-12 w-12 text-teal-600 mb-4 mx-auto md:mx-0" />
-              <h3 className="text-xl font-bold text-teal-800 text-center md:text-left mb-2">
-                Quick Search
-              </h3>
-              <p className="text-teal-700 text-center md:text-left">
-                Find medications instantly with our powerful search.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <MapPin className="h-12 w-12 text-teal-600 mb-4 mx-auto md:mx-0" />
-              <h3 className="text-xl font-bold text-teal-800 text-center md:text-left mb-2">
-                Nearby Pharmacies
-              </h3>
-              <p className="text-teal-700 text-center md:text-left">
-                Locate pharmacies with your medication in stock, sorted by
-                distance.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <Cross className="h-12 w-12 text-teal-600 mb-4 mx-auto md:mx-0" />
-              <h3 className="text-xl font-bold text-teal-800 text-center md:text-left mb-2">
-                Accurate Info
-              </h3>
-              <p className="text-teal-700 text-center md:text-left">
-                Get real-time stock information to make informed decisions.
-              </p>
+          {/* CTA Section */}
+          <div className="text-center">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent mb-4">
+              Want a Sneak Peek? Try the Demo!
+            </h3>
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+              <button
+                onClick={() => setCurrentPage("search")}
+                className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition shadow-lg"
+              >
+                Demo
+              </button>
+              <button
+                onClick={() => setCurrentPage("waitlist")}
+                className="bg-gradient-to-r from-blue-600 to-teal-500 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-teal-600 transition shadow-lg"
+              >
+                Join The Waitlist
+              </button>
             </div>
           </div>
         </div>
@@ -299,7 +237,8 @@ const LandingPage = ({ setCurrentPage }) => {
     </div>
   );
 };
-// GoogleMap Component - Fixed version
+
+// GoogleMap Component - Updated colors
 const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
   const mapContainerRef = useRef(null);
   const [markers, setMarkers] = useState([]);
@@ -307,7 +246,6 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
 
   // Load Google Maps API script
   useEffect(() => {
-    // Function to load the Google Maps script
     const loadGoogleMapsScript = () => {
       if (!window.google) {
         const script = document.createElement("script");
@@ -328,17 +266,15 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
     loadGoogleMapsScript();
 
     return () => {
-      // Cleanup function to remove the global callback
       delete window.initMap;
     };
   }, []);
 
-  // Initialize map once script is loaded
   const initializeMap = () => {
     if (!mapContainerRef.current) return;
 
     const map = new window.google.maps.Map(mapContainerRef.current, {
-      center: { lat: 51.5074, lng: -0.1278 }, // Default to London
+      center: { lat: 51.5074, lng: -0.1278 },
       zoom: 14,
     });
 
@@ -346,7 +282,6 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
     setLoading(false);
   };
 
-  // Update map when address changes
   useEffect(() => {
     if (!mapRef || !address || !window.google) return;
 
@@ -354,14 +289,11 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
     geocoder.geocode({ address }, (results, status) => {
       if (status === "OK" && results[0]) {
         const location = results[0].geometry.location;
-
         mapRef.setCenter(location);
 
-        // Clear existing markers
         markers.forEach((marker) => marker.setMap(null));
         const newMarkers = [];
 
-        // Add marker for user location
         const userMarker = new window.google.maps.Marker({
           position: location,
           map: mapRef,
@@ -373,15 +305,12 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
         });
         newMarkers.push(userMarker);
 
-        // Find pharmacies near this location
         const service = new window.google.maps.places.PlacesService(mapRef);
-
-        // Define the search request
         const request = {
           location: location,
-          radius: 5000, // 5km radius
-          keyword: "pharmacy", // Add keyword for better results
-          type: "pharmacy", // Using the correct type parameter
+          radius: 5000,
+          keyword: "pharmacy",
+          type: "pharmacy",
         };
 
         service.nearbySearch(request, (results, status) => {
@@ -390,7 +319,6 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
             results &&
             results.length > 0
           ) {
-            // Calculate distances for all pharmacies
             const pharmaciesWithDistance = results.map((place) => {
               const placeLocation = place.geometry.location;
               const distanceInMeters =
@@ -408,16 +336,11 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
               };
             });
 
-            // Sort pharmacies by distance (closest first)
             pharmaciesWithDistance.sort((a, b) => a.distance - b.distance);
-
-            // Take only the closest 3 pharmacies
             const nearbyPharmacies = pharmaciesWithDistance.slice(0, 3);
 
-            // Create updated pharmacies list with real data
             const updatedPharmacies = nearbyPharmacies.map(
               (pharmacy, index) => {
-                // Add pharmacy marker
                 const marker = new window.google.maps.Marker({
                   position: pharmacy.location,
                   map: mapRef,
@@ -435,7 +358,6 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
 
                 newMarkers.push(marker);
 
-                // Create info window
                 const infoWindow = new window.google.maps.InfoWindow({
                   content: `<div><strong>${pharmacy.place.name}</strong><br/>${pharmacy.place.vicinity}<br/>${pharmacy.distanceText}</div>`,
                 });
@@ -444,7 +366,6 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
                   infoWindow.open(mapRef, marker);
                 });
 
-                // Randomly determine if medication is in stock
                 const hasStock = Math.random() > 0.5;
 
                 return {
@@ -460,13 +381,11 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
               }
             );
 
-            // Update the pharmacies state in parent component
             if (pharmacies.setPharmacies) {
               pharmacies.setPharmacies(updatedPharmacies);
             }
           } else {
             console.error("Places API error or no pharmacies found:", status);
-            // Set empty array if no results
             if (pharmacies.setPharmacies) {
               pharmacies.setPharmacies([]);
             }
@@ -484,7 +403,7 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
     <div className="w-full h-full rounded-lg overflow-hidden">
       {loading && (
         <div className="flex items-center justify-center h-full bg-gray-100">
-          <p className="text-teal-600 font-semibold">Loading map...</p>
+          <p className="text-blue-600 font-semibold">Loading map...</p>
         </div>
       )}
       <div ref={mapContainerRef} className="w-full h-full" />
@@ -492,7 +411,7 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
   );
 };
 
-// MapPage Component with Google Maps Integration
+// MapPage Component with updated colors
 const MapPage = ({
   address,
   medicine,
@@ -504,7 +423,6 @@ const MapPage = ({
 
   return (
     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 h-auto md:h-[500px]">
-      {/* Map View */}
       <div className="w-full md:w-2/3 relative bg-gray-100 rounded-lg overflow-hidden shadow-lg h-64 md:h-full">
         <GoogleMap
           address={address}
@@ -515,23 +433,22 @@ const MapPage = ({
         <div className="absolute top-4 right-4">
           <button
             onClick={onClearSearch}
-            className="bg-white text-teal-600 p-2 rounded-full shadow-lg hover:bg-teal-50 transition"
+            className="bg-white text-blue-600 p-2 rounded-full shadow-lg hover:bg-blue-50 transition"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
       </div>
 
-      {/* Pharmacy List */}
       <div className="w-full md:w-1/3 space-y-4 overflow-y-auto md:max-h-[500px] pr-2">
-        <div className="bg-white rounded-lg shadow-lg p-4">
-          <h3 className="text-xl font-bold text-teal-700 mb-2">
+        <div className="bg-white rounded-lg shadow-lg p-4 border border-blue-100">
+          <h3 className="text-xl font-bold text-blue-700 mb-2">
             Search Details
           </h3>
-          <p className="text-teal-600">
+          <p className="text-blue-600">
             <span className="font-semibold">Address:</span> {address}
           </p>
-          <p className="text-teal-600">
+          <p className="text-blue-600">
             <span className="font-semibold">Medicine:</span> {medicine}
           </p>
         </div>
@@ -545,12 +462,12 @@ const MapPage = ({
                 : "bg-red-50 border-2 border-red-300"
             } relative`}
           >
-            <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md text-teal-600 font-bold">
+            <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md text-blue-600 font-bold">
               {index + 1}
             </div>
-            <h4 className="font-bold text-lg text-teal-800">{pharmacy.name}</h4>
-            <p className="text-teal-700">{pharmacy.address}</p>
-            <p className="text-teal-600">Distance: {pharmacy.distance}</p>
+            <h4 className="font-bold text-lg text-blue-800">{pharmacy.name}</h4>
+            <p className="text-blue-700">{pharmacy.address}</p>
+            <p className="text-blue-600">Distance: {pharmacy.distance}</p>
             <div
               className={`mt-2 font-semibold ${
                 pharmacy.hasStock ? "text-green-700" : "text-red-700"
@@ -567,7 +484,7 @@ const MapPage = ({
   );
 };
 
-// Update SearchPage component's autocomplete functionality
+// SearchPage Component with updated colors
 const SearchPage = () => {
   const [address, setAddress] = useState("");
   const [medicine, setMedicine] = useState("");
@@ -575,12 +492,10 @@ const SearchPage = () => {
   const [showResults, setShowResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Autocomplete hook for address input
   const addressInputRef = useRef(null);
   const [autocomplete, setAutocomplete] = useState(null);
 
   useEffect(() => {
-    // Initialize autocomplete when Google Maps API is loaded
     const initAutocomplete = () => {
       if (window.google && addressInputRef.current && !autocomplete) {
         try {
@@ -604,11 +519,9 @@ const SearchPage = () => {
       }
     };
 
-    // Check if Google Maps API is loaded
     if (window.google && window.google.maps && window.google.maps.places) {
       initAutocomplete();
     } else {
-      // If not loaded, set up a listener for when it loads
       const checkGoogleMapsInterval = setInterval(() => {
         if (window.google && window.google.maps && window.google.maps.places) {
           initAutocomplete();
@@ -616,16 +529,13 @@ const SearchPage = () => {
         }
       }, 500);
 
-      // Clear interval if component unmounts
       return () => clearInterval(checkGoogleMapsInterval);
     }
   }, [addressInputRef.current, window.google]);
 
   const handleSearch = () => {
-    // Validate inputs
     if (address.trim() && medicine.trim()) {
       setIsSearching(true);
-      // The actual search happens in the GoogleMap component
       setShowResults(true);
     } else {
       alert("Please enter both address and medicine name");
@@ -640,11 +550,10 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-teal-50 flex">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex">
       <div className="container mx-auto p-4 md:p-8">
-        {/* Search Input Section */}
-        <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+        <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-6 border border-blue-100">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
             Find Your Medication
           </h2>
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
@@ -657,7 +566,7 @@ const SearchPage = () => {
                 setAddress(e.target.value);
                 setShowResults(false);
               }}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             <input
               type="text"
@@ -667,11 +576,11 @@ const SearchPage = () => {
                 setMedicine(e.target.value);
                 setShowResults(false);
               }}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
             <button
               onClick={handleSearch}
-              className="w-full md:w-auto bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition flex items-center justify-center"
+              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition flex items-center justify-center shadow-lg"
               disabled={isSearching}
             >
               <Search className="mr-2" /> Search
@@ -679,13 +588,13 @@ const SearchPage = () => {
           </div>
         </div>
 
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+        <div className="bg-gradient-to-r from-blue-50 to-teal-50 border-l-4 border-blue-400 p-4 mb-6 rounded">
           <div className="flex">
             <div className="flex-shrink-0">
-              <Info className="h-5 w-5 text-yellow-500" />
+              <Info className="h-5 w-5 text-blue-500" />
             </div>
             <div className="ml-3">
-              <p className="text-sm text-yellow-700">
+              <p className="text-sm text-blue-700">
                 <strong>Note:</strong> Currently this is a Demo Website. The
                 data is not real.
               </p>
@@ -693,7 +602,6 @@ const SearchPage = () => {
           </div>
         </div>
 
-        {/* Results Section */}
         {showResults && (
           <MapPage
             address={address}
@@ -708,7 +616,7 @@ const SearchPage = () => {
   );
 };
 
-// Waitlist Page Component
+// Waitlist Page Component with updated colors
 const WaitlistPage = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -731,7 +639,6 @@ const WaitlistPage = () => {
     e.preventDefault();
 
     try {
-      // Replace with your actual FormSpree endpoint or other form processing service
       const response = await fetch("https://formspree.io/f/xjkyowlv", {
         method: "POST",
         body: JSON.stringify({
@@ -766,12 +673,12 @@ const WaitlistPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-lg bg-white p-6 md:p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-teal-600">
-          Join the MedPals Waitlist
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
+      <div className="w-full max-w-lg bg-white p-6 md:p-8 rounded-xl shadow-lg border border-blue-100">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+          Join The Waitlist
         </h2>
-        <p className="text-teal-700 mb-6">
+        <p className="text-gray-700 mb-6">
           Be the first to know when MedPals launches in your area. Join our
           waitlist for early access and updates.
         </p>
@@ -780,7 +687,7 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="name"
-              className="block text-teal-700 mb-1 font-medium"
+              className="block text-blue-700 mb-1 font-medium"
             >
               Full Name
             </label>
@@ -791,7 +698,7 @@ const WaitlistPage = () => {
               placeholder="Your name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -799,7 +706,7 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-teal-700 mb-1 font-medium"
+              className="block text-blue-700 mb-1 font-medium"
             >
               Email Address
             </label>
@@ -810,7 +717,7 @@ const WaitlistPage = () => {
               placeholder="your.email@example.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
           </div>
@@ -818,7 +725,7 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="postcode"
-              className="block text-teal-700 mb-1 font-medium"
+              className="block text-blue-700 mb-1 font-medium"
             >
               Postcode
             </label>
@@ -829,10 +736,10 @@ const WaitlistPage = () => {
               placeholder="Your postcode"
               value={formData.postcode}
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             />
-            <p className="text-sm text-teal-600 mt-1">
+            <p className="text-sm text-blue-600 mt-1">
               This helps us prioritize areas for our initial launch
             </p>
           </div>
@@ -840,7 +747,7 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="reason"
-              className="block text-teal-700 mb-1 font-medium"
+              className="block text-blue-700 mb-1 font-medium"
             >
               Why are you interested in MedPals?
             </label>
@@ -849,7 +756,7 @@ const WaitlistPage = () => {
               name="reason"
               value={formData.reason}
               onChange={handleChange}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               required
             >
               <option value="">Select a reason</option>
@@ -870,16 +777,16 @@ const WaitlistPage = () => {
               name="updates"
               checked={formData.updates}
               onChange={handleChange}
-              className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
-            <label htmlFor="updates" className="ml-2 block text-teal-700">
+            <label htmlFor="updates" className="ml-2 block text-blue-700">
               Keep me updated on MedPals news and developments
             </label>
           </div>
 
           <button
             type="submit"
-            className="w-full bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition font-medium"
+            className="w-full bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition font-medium shadow-lg"
           >
             Join Waitlist
           </button>
@@ -906,19 +813,19 @@ const WaitlistPage = () => {
   );
 };
 
-// Blog Page Component
+// Blog Page Component with updated colors
 const BlogPage = () => {
   return (
-    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="max-w-2xl bg-white p-6 md:p-10 rounded-xl shadow-lg text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
+      <div className="max-w-2xl bg-white p-6 md:p-10 rounded-xl shadow-lg text-center border border-blue-100">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
           Our Blog
         </h2>
         <div className="flex justify-center mb-6">
-          <Newspaper className="h-16 w-16 text-teal-500" />
+          <Newspaper className="h-16 w-16 text-blue-500" />
         </div>
-        <p className="text-xl font-bold text-teal-700 mb-4">Coming Soon!</p>
-        <p className="text-teal-600">
+        <p className="text-xl font-bold text-blue-700 mb-4">Coming Soon!</p>
+        <p className="text-gray-600">
           We're working on bringing you the latest healthcare insights,
           medication news, and helpful resources. Check back soon for valuable
           content to help you manage your health.
@@ -928,15 +835,15 @@ const BlogPage = () => {
   );
 };
 
-// About Page Component
+// About Page Component with updated colors
 const AboutPage = () => {
   return (
-    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="max-w-4xl bg-white p-6 md:p-10 rounded-xl shadow-lg">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
+      <div className="max-w-4xl bg-white p-6 md:p-10 rounded-xl shadow-lg border border-blue-100">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
           About Medpals
         </h2>
-        <p className="text-teal-700 leading-relaxed mb-4">
+        <p className="text-gray-700 leading-relaxed mb-4">
           Medpals is an innovative platform designed by{" "}
           <strong>Imperial College London</strong> Students to simplify
           medication access. Our mission is to connect patients with nearby
@@ -945,32 +852,32 @@ const AboutPage = () => {
         </p>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-teal-100 p-4 rounded-lg text-center md:text-left">
-            <h3 className="font-bold text-teal-600">Quick Search</h3>
-            <p className="text-teal-700">Find medicines near you instantly</p>
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg text-center md:text-left border border-blue-200">
+            <h3 className="font-bold text-blue-600">Quick Search</h3>
+            <p className="text-blue-700">Find medicines near you instantly</p>
           </div>
-          <div className="bg-teal-100 p-4 rounded-lg text-center md:text-left">
+          <div className="bg-gradient-to-br from-teal-50 to-teal-100 p-4 rounded-lg text-center md:text-left border border-teal-200">
             <h3 className="font-bold text-teal-600">Accurate Results</h3>
             <p className="text-teal-700">
               Precise pharmacy and medicine location
             </p>
           </div>
-          <div className="bg-teal-100 p-4 rounded-lg text-center md:text-left">
-            <h3 className="font-bold text-teal-600">User Friendly</h3>
-            <p className="text-teal-700">Simple and intuitive interface</p>
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg text-center md:text-left border border-blue-200">
+            <h3 className="font-bold text-blue-600">User Friendly</h3>
+            <p className="text-blue-700">Simple and intuitive interface</p>
           </div>
         </div>
 
         {/* Founders Section */}
         <div className="mt-12">
-          <h3 className="text-xl md:text-2xl font-bold mb-6 text-teal-600 text-center">
+          <h3 className="text-xl md:text-2xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent text-center">
             Meet Our Founders
           </h3>
 
           {/* Group Photo */}
-          <div className="bg-teal-50 p-6 rounded-lg shadow-lg mb-6">
+          <div className="bg-gradient-to-br from-blue-50 to-teal-50 p-6 rounded-lg shadow-lg mb-6 border border-blue-100">
             <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg mb-6">
-              <div className="flex items-center justify-center bg-teal-100 h-64 md:h-80">
+              <div className="flex items-center justify-center bg-gradient-to-br from-blue-100 to-teal-100 h-64 md:h-80">
                 <img
                   src="Founders.jpeg"
                   alt="Medpals Founding Team"
@@ -980,17 +887,17 @@ const AboutPage = () => {
             </div>
 
             <div className="text-center md:text-left">
-              <h4 className="font-bold text-lg text-teal-700 mb-2">
+              <h4 className="font-bold text-lg text-blue-700 mb-2">
                 The Founding Team
               </h4>
-              <p className="text-teal-700 mb-4">
+              <p className="text-gray-700 mb-4">
                 Our team consists of six passionate Imperial College London and
                 Royal College of Arts students from diverse academic backgrounds
                 including Computer Science, Medicine, UI/UX and Business. United
                 by a shared vision to revolutionize medication accessibility, we
                 created Medpals as part of the HealthX Initiative.
               </p>
-              <p className="text-teal-700">
+              <p className="text-gray-700">
                 Together, we combine technical expertise, healthcare knowledge,
                 and entrepreneurial spirit to tackle the challenges of
                 medication access. Our mission is to ensure that everyone can
@@ -999,17 +906,17 @@ const AboutPage = () => {
             </div>
           </div>
 
-          <div className="bg-teal-50 p-6 rounded-lg shadow-lg">
-            <h4 className="font-bold text-lg text-teal-700 mb-4 text-center">
+          <div className="bg-gradient-to-br from-blue-50 to-teal-50 p-6 rounded-lg shadow-lg border border-blue-100">
+            <h4 className="font-bold text-lg text-blue-700 mb-4 text-center">
               Our Vision
             </h4>
-            <p className="text-teal-700 mb-4">
+            <p className="text-gray-700 mb-4">
               We envision a world where medication access is never a barrier to
               health and wellbeing. By bridging the gap between patients and
               pharmacies, we aim to reduce the stress and uncertainty that often
               accompanies the search for critical medications.
             </p>
-            <p className="text-teal-700">
+            <p className="text-gray-700">
               Medpals represents our commitment to leveraging technology for
               healthcare solutions that make a meaningful difference in people's
               everyday lives. As students at Imperial College London, we're
@@ -1023,7 +930,7 @@ const AboutPage = () => {
   );
 };
 
-// Contact Page Component with FormSpree
+// Contact Page Component with updated colors
 const ContactPage = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -1059,9 +966,9 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
+      <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg border border-blue-100">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
           Contact Us
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -1070,19 +977,19 @@ const ContactPage = () => {
             placeholder="Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+            className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
           <textarea
             placeholder="Your Message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="w-full p-3 border rounded-lg h-32 focus:ring-2 focus:ring-teal-500"
+            className="w-full p-3 border-2 border-blue-200 rounded-lg h-32 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
           <button
             type="submit"
-            className="w-full bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition"
+            className="w-full bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition shadow-lg"
           >
             Send Message
           </button>
@@ -1103,7 +1010,7 @@ const ContactPage = () => {
   );
 };
 
-// Newsletter Subscription Page with FormSpree
+// Newsletter Subscription Page with updated colors
 const NewsletterPage = () => {
   const [email, setEmail] = useState("");
   const [subscriptionStatus, setSubscriptionStatus] = useState("");
@@ -1136,9 +1043,9 @@ const NewsletterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-teal-600">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
+      <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg border border-blue-100">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
           Subscribe to Our Newsletter
         </h2>
         <form onSubmit={handleSubscribe} className="space-y-4">
@@ -1147,12 +1054,12 @@ const NewsletterPage = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500"
+            className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
           <button
             type="submit"
-            className="w-full bg-teal-600 text-white p-3 rounded-lg hover:bg-teal-700 transition"
+            className="w-full bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition shadow-lg"
           >
             Subscribe
           </button>
@@ -1173,10 +1080,9 @@ const NewsletterPage = () => {
   );
 };
 
-// Also update the GoogleMapsApiScript component to properly load the API
+// GoogleMapsApiScript component
 const GoogleMapsApiScript = () => {
   useEffect(() => {
-    // Only load if not already loaded
     if (
       !window.googleMapsLoaded &&
       !document.getElementById("google-maps-script")
