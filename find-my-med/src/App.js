@@ -1,5 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Search, Newspaper, Phone, Info, Heart, X, Menu } from "lucide-react";
+import {
+  Search,
+  Newspaper,
+  Phone,
+  Info,
+  Heart,
+  X,
+  Menu,
+  Home,
+} from "lucide-react";
+
+// Define consistent color variables for easier management and matching
+const colors = {
+  primaryBlue: "#005AB5", // Darker blue for headings, buttons
+  accentTeal: "#008080", // Teal for header, accents
+  lightBackground: "#EDF5FB", // Light blue-gray for sections/banners
+  gradientStart: "#1e40af", // Deeper blue for footer gradient start
+  gradientEnd: "#0891b2", // Brighter teal for footer gradient end
+  lightBlueShade: "rgb(237, 245, 251)", // For very light backgrounds
+  white: "white",
+  black: "black",
+  grayText: "#4B5563", // A slightly softer black for body text
+  borderLight: "#BFDBFE", // Light blue for borders
+  hoverBlue: "#004A9F", // Darker blue for button hover
+};
 
 const Header = ({ setCurrentPage }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -9,8 +33,8 @@ const Header = ({ setCurrentPage }) => {
       style={{
         width: "100%",
         height: "100%",
-        background: "#008080",
-        color: "white",
+        background: colors.accentTeal, // Header background
+        color: colors.white,
         padding: 16,
         boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
       }}
@@ -30,7 +54,7 @@ const Header = ({ setCurrentPage }) => {
             onClick={() => setCurrentPage("home")}
             className="hover:text-blue-200 transition flex items-center space-x-1"
           >
-            <Search className="h-5 w-5" /> <span>Home</span>
+            <Home className="h-5 w-5" /> <span>Home</span>
           </button>
           <button
             onClick={() => setCurrentPage("about")}
@@ -51,6 +75,12 @@ const Header = ({ setCurrentPage }) => {
             <Phone className="h-5 w-5" /> <span>Contact</span>
           </button>
           <button
+            onClick={() => setCurrentPage("search")} /* DEMO Button */
+            className="hover:text-blue-200 transition flex items-center space-x-1"
+          >
+            <Search className="h-5 w-5" /> <span>Demo</span>
+          </button>
+          <button
             onClick={() => setCurrentPage("waitlist")}
             className="bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded transition flex items-center space-x-1"
           >
@@ -68,7 +98,10 @@ const Header = ({ setCurrentPage }) => {
 
         {/* Mobile Navigation Overlay */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-teal-600 z-50 md:hidden">
+          <div
+            className="fixed inset-0"
+            style={{ background: colors.accentTeal, zIndex: 50 }}
+          >
             <div className="flex justify-end p-4">
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -85,7 +118,7 @@ const Header = ({ setCurrentPage }) => {
                 }}
                 className="hover:text-blue-200 transition flex items-center space-x-2 text-xl"
               >
-                <Search className="h-6 w-6" /> <span>Home</span>
+                <Home className="h-6 w-6" /> <span>Home</span>
               </button>
               <button
                 onClick={() => {
@@ -98,6 +131,15 @@ const Header = ({ setCurrentPage }) => {
               </button>
               <button
                 onClick={() => {
+                  setCurrentPage("blog");
+                  setMobileMenuOpen(false);
+                }}
+                className="hover:text-blue-200 transition flex items-center space-x-2 text-xl"
+              >
+                <Newspaper className="h-6 w-6" /> <span>Blog</span>
+              </button>
+              <button
+                onClick={() => {
                   setCurrentPage("contact");
                   setMobileMenuOpen(false);
                 }}
@@ -107,12 +149,12 @@ const Header = ({ setCurrentPage }) => {
               </button>
               <button
                 onClick={() => {
-                  setCurrentPage("blog");
+                  setCurrentPage("search"); /* DEMO Button */
                   setMobileMenuOpen(false);
                 }}
                 className="hover:text-blue-200 transition flex items-center space-x-2 text-xl"
               >
-                <Newspaper className="h-6 w-6" /> <span>Blog</span>
+                <Search className="h-6 w-6" /> <span>Demo</span>
               </button>
               <button
                 onClick={() => {
@@ -130,7 +172,7 @@ const Header = ({ setCurrentPage }) => {
     </header>
   );
 };
-// Footer Component
+
 const Footer = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
   const [subscriptionStatus, setSubscriptionStatus] = useState("");
@@ -166,8 +208,8 @@ const Footer = ({ setCurrentPage }) => {
   const navigationItems = [
     { label: "Home", page: "home" },
     { label: "About", page: "about" },
-    { label: "Services", page: "search" }, // Services maps to search/demo page
-    { label: "News", page: "blog" }, // News maps to blog page
+    { label: "Services", page: "search" },
+    { label: "News", page: "blog" },
     { label: "Contact", page: "contact" },
   ];
 
@@ -175,12 +217,11 @@ const Footer = ({ setCurrentPage }) => {
     <footer
       style={{
         width: "100%",
-        background: "linear-gradient(135deg, #1e40af 0%, #0891b2 100%)",
+        background: `linear-gradient(135deg, ${colors.gradientStart} 0%, ${colors.gradientEnd} 100%)`,
         padding: "40px 0 0 0",
-        color: "white",
+        color: colors.white,
       }}
     >
-      {/* Main Footer Content */}
       <div
         style={{
           maxWidth: "1200px",
@@ -193,7 +234,6 @@ const Footer = ({ setCurrentPage }) => {
           flexWrap: "wrap",
         }}
       >
-        {/* Left Section - Newsletter */}
         <div
           style={{
             flex: "1",
@@ -205,7 +245,7 @@ const Footer = ({ setCurrentPage }) => {
               fontSize: "24px",
               fontWeight: "500",
               marginBottom: "30px",
-              color: "white",
+              color: colors.white,
               fontFamily: "Inter, sans-serif",
             }}
           >
@@ -232,9 +272,9 @@ const Footer = ({ setCurrentPage }) => {
                 minWidth: "250px",
                 padding: "12px 16px",
                 borderRadius: "8px",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
+                border: `1px solid rgba(255, 255, 255, 0.3)`,
                 background: "transparent",
-                color: "white",
+                color: colors.white,
                 fontSize: "16px",
                 outline: "none",
               }}
@@ -243,8 +283,8 @@ const Footer = ({ setCurrentPage }) => {
               type="submit"
               style={{
                 padding: "12px 24px",
-                background: "white",
-                color: "#1e40af",
+                background: colors.white,
+                color: colors.gradientStart,
                 border: "none",
                 borderRadius: "8px",
                 fontSize: "16px",
@@ -271,7 +311,6 @@ const Footer = ({ setCurrentPage }) => {
             </div>
           )}
 
-          {/* Logo and Tagline */}
           <div style={{ marginBottom: "20px" }}>
             <div
               style={{
@@ -295,7 +334,6 @@ const Footer = ({ setCurrentPage }) => {
             </div>
           </div>
 
-          {/* Social Icons */}
           <div
             style={{
               display: "flex",
@@ -304,7 +342,6 @@ const Footer = ({ setCurrentPage }) => {
           ></div>
         </div>
 
-        {/* Right Section - Navigation */}
         <div
           style={{
             minWidth: "150px",
@@ -315,7 +352,7 @@ const Footer = ({ setCurrentPage }) => {
               fontSize: "18px",
               fontWeight: "500",
               marginBottom: "20px",
-              color: "white",
+              color: colors.white,
               fontFamily: "Inter, sans-serif",
             }}
           >
@@ -335,7 +372,7 @@ const Footer = ({ setCurrentPage }) => {
                 style={{
                   fontSize: "16px",
                   fontWeight: "300",
-                  color: "rgba(255, 255, 255, 0.9)",
+                  color: `rgba(255, 255, 255, 0.9)`,
                   cursor: "pointer",
                   fontFamily: "Inter, sans-serif",
                   background: "none",
@@ -344,9 +381,9 @@ const Footer = ({ setCurrentPage }) => {
                   padding: "0",
                   transition: "color 0.3s ease",
                 }}
-                onMouseEnter={(e) => (e.target.style.color = "white")}
+                onMouseEnter={(e) => (e.target.style.color = colors.white)}
                 onMouseLeave={(e) =>
-                  (e.target.style.color = "rgba(255, 255, 255, 0.9)")
+                  (e.target.style.color = `rgba(255, 255, 255, 0.9)`)
                 }
               >
                 {item.label}
@@ -356,12 +393,11 @@ const Footer = ({ setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Copyright Section */}
       <div
         style={{
           marginTop: "40px",
           padding: "16px 0",
-          background: "rgba(0, 0, 0, 0.1)",
+          background: `rgba(0, 0, 0, 0.1)`,
           textAlign: "center",
         }}
       >
@@ -369,7 +405,7 @@ const Footer = ({ setCurrentPage }) => {
           style={{
             fontSize: "14px",
             fontWeight: "300",
-            color: "rgba(255, 255, 255, 0.8)",
+            color: `rgba(255, 255, 255, 0.8)`,
             fontFamily: "Inter, sans-serif",
           }}
         >
@@ -380,11 +416,14 @@ const Footer = ({ setCurrentPage }) => {
   );
 };
 
-// Landing Page Component with Updated Colors and Our Product Section
 const LandingPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
-      {/* Hero Section - Updated to match Figma exactly */}
+    <div
+      className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50"
+      style={{
+        background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.white} 50%, ${colors.lightBlueShade} 100%)`,
+      }}
+    >
       <div className="container mx-auto px-4 py-12">
         <div
           style={{
@@ -397,7 +436,6 @@ const LandingPage = ({ setCurrentPage }) => {
             flexWrap: "wrap",
           }}
         >
-          {/* Left Side - Text Content */}
           <div
             style={{
               width: "100%",
@@ -409,12 +447,11 @@ const LandingPage = ({ setCurrentPage }) => {
               display: "inline-flex",
             }}
           >
-            {/* Main Heading */}
             <div
               style={{
                 width: "100%",
                 maxWidth: 562,
-                color: "#005AB5",
+                color: colors.primaryBlue,
                 fontSize: "clamp(32px, 6vw, 48px)",
                 fontFamily: "Manrope, sans-serif",
                 fontWeight: "800",
@@ -425,11 +462,10 @@ const LandingPage = ({ setCurrentPage }) => {
               Track it. Trace it. Take it
             </div>
 
-            {/* Description Text */}
             <div style={{ alignSelf: "stretch" }}>
               <span
                 style={{
-                  color: "black",
+                  color: colors.black,
                   fontSize: "clamp(16px, 2.5vw, 20px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "700",
@@ -441,7 +477,7 @@ const LandingPage = ({ setCurrentPage }) => {
               </span>
               <span
                 style={{
-                  color: "black",
+                  color: colors.black,
                   fontSize: "clamp(16px, 2.5vw, 20px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "400",
@@ -458,7 +494,6 @@ const LandingPage = ({ setCurrentPage }) => {
               </span>
             </div>
 
-            {/* Buttons */}
             <div
               style={{
                 justifyContent: "flex-start",
@@ -468,7 +503,6 @@ const LandingPage = ({ setCurrentPage }) => {
                 flexWrap: "wrap",
               }}
             >
-              {/* Learn More Button */}
               <button
                 onClick={() => {
                   const productSection = document.getElementById(
@@ -483,10 +517,9 @@ const LandingPage = ({ setCurrentPage }) => {
                   paddingRight: 30,
                   paddingTop: 10,
                   paddingBottom: 10,
-                  background:
-                    "radial-gradient(ellipse 95.59% 77.23% at 98.53% 51.06%, #005AB5 0%, #008080 100%)",
+                  background: `radial-gradient(ellipse 95.59% 77.23% at 98.53% 51.06%, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
                   borderRadius: 100,
-                  outline: "2px #005AB5 solid",
+                  outline: `2px ${colors.primaryBlue} solid`,
                   outlineOffset: "-2px",
                   justifyContent: "flex-start",
                   alignItems: "center",
@@ -499,7 +532,7 @@ const LandingPage = ({ setCurrentPage }) => {
               >
                 <div
                   style={{
-                    color: "white",
+                    color: colors.white,
                     fontSize: "clamp(16px, 2.5vw, 20px)",
                     fontFamily: "Manrope, sans-serif",
                     fontWeight: "700",
@@ -510,7 +543,6 @@ const LandingPage = ({ setCurrentPage }) => {
                 </div>
               </button>
 
-              {/* Demo Button */}
               <button
                 onClick={() => setCurrentPage("search")}
                 style={{
@@ -519,7 +551,7 @@ const LandingPage = ({ setCurrentPage }) => {
                   paddingTop: 10,
                   paddingBottom: 10,
                   borderRadius: 100,
-                  outline: "2px #005AB5 solid",
+                  outline: `2px ${colors.primaryBlue} solid`,
                   outlineOffset: "-2px",
                   justifyContent: "flex-start",
                   alignItems: "center",
@@ -533,7 +565,7 @@ const LandingPage = ({ setCurrentPage }) => {
               >
                 <div
                   style={{
-                    color: "#005AB5",
+                    color: colors.primaryBlue,
                     fontSize: "clamp(16px, 2.5vw, 20px)",
                     fontFamily: "Manrope, sans-serif",
                     fontWeight: "700",
@@ -546,7 +578,6 @@ const LandingPage = ({ setCurrentPage }) => {
             </div>
           </div>
 
-          {/* Right Side - Image Illustration */}
           <div
             style={{
               flex: "1",
@@ -563,25 +594,21 @@ const LandingPage = ({ setCurrentPage }) => {
                 maxWidth: "500px",
               }}
             >
-              {/* Background gradient blob */}
               <div
                 style={{
                   position: "absolute",
                   inset: "0",
-                  background:
-                    "linear-gradient(135deg, rgba(0, 90, 181, 0.1) 0%, rgba(0, 128, 128, 0.1) 100%)",
+                  background: `linear-gradient(135deg, ${colors.primaryBlue}1A 0%, ${colors.accentTeal}1A 100%)`, // 1A is for ~10% opacity
                   borderRadius: "24px",
                   transform: "rotate(6deg)",
                   opacity: "0.8",
                 }}
               ></div>
 
-              {/* Main image container */}
               <div
                 style={{
                   position: "relative",
-                  background:
-                    "linear-gradient(135deg, rgba(0, 90, 181, 0.05) 0%, rgba(0, 128, 128, 0.05) 100%)",
+                  background: `linear-gradient(135deg, ${colors.primaryBlue}0D 0%, ${colors.accentTeal}0D 100%)`, // 0D is for ~5% opacity
                   borderRadius: "24px",
                   padding: "32px",
                   minHeight: "400px",
@@ -591,7 +618,6 @@ const LandingPage = ({ setCurrentPage }) => {
                   overflow: "hidden",
                 }}
               >
-                {/* Replace this img src with your actual image */}
                 <img
                   src="landing_image.png"
                   alt="Medical illustration showing medication bottles, pills and healthcare symbols"
@@ -603,20 +629,17 @@ const LandingPage = ({ setCurrentPage }) => {
                     borderRadius: "12px",
                   }}
                   onError={(e) => {
-                    // Fallback if image doesn't load - show the original illustration
                     e.target.style.display = "none";
                     e.target.nextElementSibling.style.display = "flex";
                   }}
                 />
 
-                {/* Fallback illustration (hidden by default) */}
                 <div
                   style={{
                     display: "none",
                     width: "100%",
                     height: "400px",
-                    background:
-                      "linear-gradient(135deg, #A7CCED 0%, #005AB5 100%)",
+                    background: `linear-gradient(135deg, #A7CCED 0%, ${colors.primaryBlue} 100%)`,
                     borderRadius: "12px",
                     alignItems: "center",
                     justifyContent: "center",
@@ -633,7 +656,7 @@ const LandingPage = ({ setCurrentPage }) => {
                   </div>
                   <div
                     style={{
-                      color: "white",
+                      color: colors.white,
                       fontSize: "18px",
                       fontFamily: "Manrope, sans-serif",
                       fontWeight: "600",
@@ -644,13 +667,12 @@ const LandingPage = ({ setCurrentPage }) => {
                   </div>
                 </div>
 
-                {/* Decorative elements */}
                 <div
                   style={{
                     position: "absolute",
                     top: "16px",
                     left: "16px",
-                    color: "#005AB5",
+                    color: colors.primaryBlue,
                     opacity: "0.3",
                   }}
                 >
@@ -670,7 +692,7 @@ const LandingPage = ({ setCurrentPage }) => {
                     right: "32px",
                     width: "16px",
                     height: "16px",
-                    background: "#008080",
+                    background: colors.accentTeal,
                     borderRadius: "50%",
                     opacity: "0.4",
                   }}
@@ -682,7 +704,7 @@ const LandingPage = ({ setCurrentPage }) => {
                     left: "32px",
                     width: "24px",
                     height: "24px",
-                    background: "#005AB5",
+                    background: colors.primaryBlue,
                     borderRadius: "50%",
                     opacity: "0.3",
                   }}
@@ -692,7 +714,7 @@ const LandingPage = ({ setCurrentPage }) => {
                     position: "absolute",
                     bottom: "16px",
                     right: "48px",
-                    color: "#008080",
+                    color: colors.accentTeal,
                     opacity: "0.25",
                   }}
                 >
@@ -711,8 +733,12 @@ const LandingPage = ({ setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Waitlist Banner - Full Width */}
-      <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-8">
+      <div
+        className="w-full py-8"
+        style={{
+          background: `linear-gradient(to right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+        }}
+      >
         <div className="container mx-auto px-4">
           <div
             style={{
@@ -721,7 +747,7 @@ const LandingPage = ({ setCurrentPage }) => {
               paddingRight: "clamp(20px, 5vw, 82px)",
               paddingTop: 24,
               paddingBottom: 24,
-              background: "#EDF5FB",
+              background: colors.lightBackground, // Banner background
               borderRadius: 180,
               justifyContent: "flex-start",
               alignItems: "center",
@@ -733,7 +759,7 @@ const LandingPage = ({ setCurrentPage }) => {
             <div
               style={{
                 minWidth: 200,
-                color: "#008080",
+                color: colors.accentTeal,
                 fontSize: "clamp(28px, 4vw, 40px)",
                 fontFamily: "Manrope, sans-serif",
                 fontWeight: "800",
@@ -761,7 +787,7 @@ const LandingPage = ({ setCurrentPage }) => {
               >
                 <span
                   style={{
-                    color: "black",
+                    color: colors.black,
                     fontSize: 20,
                     fontFamily: "Manrope, sans-serif",
                     fontWeight: "400",
@@ -774,7 +800,7 @@ const LandingPage = ({ setCurrentPage }) => {
                 </span>
                 <span
                   style={{
-                    color: "black",
+                    color: colors.black,
                     fontSize: 20,
                     fontFamily: "Manrope, sans-serif",
                     fontWeight: "700",
@@ -786,7 +812,7 @@ const LandingPage = ({ setCurrentPage }) => {
                 </span>
                 <span
                   style={{
-                    color: "black",
+                    color: colors.black,
                     fontSize: 20,
                     fontFamily: "Manrope, sans-serif",
                     fontWeight: "400",
@@ -826,7 +852,7 @@ const LandingPage = ({ setCurrentPage }) => {
                       paddingRight: 30,
                       paddingTop: 10,
                       paddingBottom: 10,
-                      background: "#005AB5",
+                      background: colors.primaryBlue,
                       borderRadius: 48,
                       justifyContent: "center",
                       alignItems: "center",
@@ -837,15 +863,15 @@ const LandingPage = ({ setCurrentPage }) => {
                       transition: "all 0.3s ease",
                     }}
                     onMouseEnter={(e) =>
-                      (e.target.style.background = "#004A9F")
+                      (e.target.style.background = colors.hoverBlue)
                     }
                     onMouseLeave={(e) =>
-                      (e.target.style.background = "#005AB5")
+                      (e.target.style.background = colors.primaryBlue)
                     }
                   >
                     <div
                       style={{
-                        color: "white",
+                        color: colors.white,
                         fontSize: 16,
                         fontFamily: "Manrope, sans-serif",
                         fontWeight: "700",
@@ -863,13 +889,15 @@ const LandingPage = ({ setCurrentPage }) => {
         </div>
       </div>
 
-      {/* Our Product Section */}
-      <div id="our-product-section" className="w-full bg-white">
-        {/* Main Title */}
+      <div
+        id="our-product-section"
+        className="w-full"
+        style={{ background: colors.white }}
+      >
         <div className="text-center py-12 md:py-16">
           <h2
             style={{
-              color: "#005AB5",
+              color: colors.primaryBlue,
               fontSize: "clamp(32px, 5vw, 44px)",
               fontFamily: "Manrope, sans-serif",
               fontWeight: "800",
@@ -880,14 +908,17 @@ const LandingPage = ({ setCurrentPage }) => {
           </h2>
         </div>
 
-        {/* Step 1: Sofia's Problem + Character */}
-        <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-12 md:py-16">
+        <div
+          className="w-full py-12 md:py-16"
+          style={{
+            background: `linear-gradient(to right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+          }}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between max-w-7xl">
-            {/* Text Content */}
             <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8 xl:pr-12">
               <h3
                 style={{
-                  color: "#005AB5",
+                  color: colors.primaryBlue,
                   fontSize: "clamp(20px, 4vw, 32px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "700",
@@ -900,7 +931,7 @@ const LandingPage = ({ setCurrentPage }) => {
               </h3>
               <p
                 style={{
-                  color: "black",
+                  color: colors.black,
                   fontSize: "clamp(14px, 2.5vw, 20px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "400",
@@ -915,10 +946,14 @@ const LandingPage = ({ setCurrentPage }) => {
               </p>
             </div>
 
-            {/* Character Illustration */}
             <div className="w-full lg:w-1/2 flex justify-center">
               <div className="relative">
-                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-200 to-teal-200 rounded-full flex items-center justify-center shadow-lg">
+                <div
+                  className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center shadow-lg"
+                  style={{
+                    background: `linear-gradient(to bottom right, #BFDBFE 0%, ${colors.accentTeal}30 100%)`,
+                  }}
+                >
                   <div className="text-7xl sm:text-8xl md:text-9xl">👩🏻‍⚕️</div>
                 </div>
               </div>
@@ -926,14 +961,15 @@ const LandingPage = ({ setCurrentPage }) => {
           </div>
         </div>
 
-        {/* Step 2: She opens medpals */}
-        <div className="w-full bg-white py-12 md:py-16">
+        <div
+          className="w-full py-12 md:py-16"
+          style={{ background: colors.white }}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row-reverse items-center justify-between max-w-7xl">
-            {/* Text Content */}
             <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pl-8 xl:pl-12">
               <h3
                 style={{
-                  color: "#005AB5",
+                  color: colors.primaryBlue,
                   fontSize: "clamp(20px, 4vw, 32px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "700",
@@ -945,7 +981,7 @@ const LandingPage = ({ setCurrentPage }) => {
               </h3>
               <p
                 style={{
-                  color: "black",
+                  color: colors.black,
                   fontSize: "clamp(14px, 2.5vw, 20px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "400",
@@ -960,14 +996,24 @@ const LandingPage = ({ setCurrentPage }) => {
               </p>
             </div>
 
-            {/* Phone Illustration */}
             <div className="w-full lg:w-1/2 flex justify-center">
               <div className="relative">
-                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                <div
+                  className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center shadow-lg"
+                  style={{
+                    background: `linear-gradient(to bottom right, #E0F2FE 0%, ${colors.accentTeal}1A 100%)`,
+                  }}
+                >
                   <img
                     src="app_search_screen.png"
                     alt="Phone with search screen"
-                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform rotate-12 hover:rotate-6 transition-transform duration-300"
+                    className="object-cover rounded-2xl shadow-xl transform rotate-12 hover:rotate-6 transition-transform duration-300"
+                    style={{
+                      width: "55%",
+                      height: "90%",
+                      maxWidth: "300px",
+                      maxHeight: "450px",
+                    }} // Made phone larger relative to its container
                   />
                 </div>
               </div>
@@ -975,14 +1021,17 @@ const LandingPage = ({ setCurrentPage }) => {
           </div>
         </div>
 
-        {/* Step 3: Find Your Medication */}
-        <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-12 md:py-16">
+        <div
+          className="w-full py-12 md:py-16"
+          style={{
+            background: `linear-gradient(to right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+          }}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between max-w-7xl">
-            {/* Text Content */}
             <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8 xl:pr-12">
               <h3
                 style={{
-                  color: "#005AB5",
+                  color: colors.primaryBlue,
                   fontSize: "clamp(20px, 4vw, 32px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "700",
@@ -994,7 +1043,7 @@ const LandingPage = ({ setCurrentPage }) => {
               </h3>
               <p
                 style={{
-                  color: "black",
+                  color: colors.black,
                   fontSize: "clamp(14px, 2.5vw, 20px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "400",
@@ -1005,14 +1054,24 @@ const LandingPage = ({ setCurrentPage }) => {
               </p>
             </div>
 
-            {/* Phone Illustration */}
             <div className="w-full lg:w-1/2 flex justify-center">
               <div className="relative">
-                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                <div
+                  className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center shadow-lg"
+                  style={{
+                    background: `linear-gradient(to bottom right, #E0F2FE 0%, ${colors.accentTeal}1A 100%)`,
+                  }}
+                >
                   <img
                     src="app_step2.png"
                     alt="Phone with location screen"
-                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300"
+                    className="object-cover rounded-2xl shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300"
+                    style={{
+                      width: "55%",
+                      height: "90%",
+                      maxWidth: "300px",
+                      maxHeight: "450px",
+                    }} // Made phone larger relative to its container
                   />
                 </div>
               </div>
@@ -1020,14 +1079,15 @@ const LandingPage = ({ setCurrentPage }) => {
           </div>
         </div>
 
-        {/* Step 4: Within seconds */}
-        <div className="w-full bg-white py-12 md:py-16">
+        <div
+          className="w-full py-12 md:py-16"
+          style={{ background: colors.white }}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row-reverse items-center justify-between max-w-7xl">
-            {/* Text Content */}
             <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pl-8 xl:pl-12">
               <h3
                 style={{
-                  color: "#005AB5",
+                  color: colors.primaryBlue,
                   fontSize: "clamp(20px, 4vw, 32px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "700",
@@ -1039,7 +1099,7 @@ const LandingPage = ({ setCurrentPage }) => {
               </h3>
               <p
                 style={{
-                  color: "black",
+                  color: colors.black,
                   fontSize: "clamp(14px, 2.5vw, 20px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "400",
@@ -1052,14 +1112,24 @@ const LandingPage = ({ setCurrentPage }) => {
               </p>
             </div>
 
-            {/* Phone Illustration */}
             <div className="w-full lg:w-1/2 flex justify-center">
               <div className="relative">
-                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                <div
+                  className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center shadow-lg"
+                  style={{
+                    background: `linear-gradient(to bottom right, #E0F2FE 0%, ${colors.accentTeal}1A 100%)`,
+                  }}
+                >
                   <img
                     src="app_step3.png"
                     alt="Phone with map screen"
-                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform rotate-6 hover:rotate-12 transition-transform duration-300"
+                    className="object-cover rounded-2xl shadow-xl transform rotate-6 hover:rotate-12 transition-transform duration-300"
+                    style={{
+                      width: "55%",
+                      height: "90%",
+                      maxWidth: "300px",
+                      maxHeight: "450px",
+                    }} // Made phone larger relative to its container
                   />
                 </div>
               </div>
@@ -1067,14 +1137,17 @@ const LandingPage = ({ setCurrentPage }) => {
           </div>
         </div>
 
-        {/* Step 5: Final - Sofia's Success */}
-        <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-12 md:py-16">
+        <div
+          className="w-full py-12 md:py-16"
+          style={{
+            background: `linear-gradient(to right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+          }}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between max-w-7xl">
-            {/* Text Content */}
             <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8 xl:pr-12">
               <h3
                 style={{
-                  color: "#005AB5",
+                  color: colors.primaryBlue,
                   fontSize: "clamp(20px, 4vw, 32px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "700",
@@ -1087,7 +1160,7 @@ const LandingPage = ({ setCurrentPage }) => {
               </h3>
               <p
                 style={{
-                  color: "black",
+                  color: colors.black,
                   fontSize: "clamp(14px, 2.5vw, 20px)",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: "400",
@@ -1100,14 +1173,24 @@ const LandingPage = ({ setCurrentPage }) => {
               </p>
             </div>
 
-            {/* Phone Illustration */}
             <div className="w-full lg:w-1/2 flex justify-center">
               <div className="relative">
-                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-green-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                <div
+                  className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center shadow-lg"
+                  style={{
+                    background: `linear-gradient(to bottom right, #D1FAE5 0%, ${colors.accentTeal}1A 100%)`,
+                  }}
+                >
                   <img
                     src="app_step4.png"
                     alt="Phone with success screen"
-                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform -rotate-12 hover:-rotate-6 transition-transform duration-300"
+                    className="object-cover rounded-2xl shadow-xl transform -rotate-12 hover:-rotate-6 transition-transform duration-300"
+                    style={{
+                      width: "55%",
+                      height: "90%",
+                      maxWidth: "300px",
+                      maxHeight: "450px",
+                    }} // Made phone larger relative to its container
                   />
                 </div>
               </div>
@@ -1115,22 +1198,36 @@ const LandingPage = ({ setCurrentPage }) => {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="w-full bg-white py-12 md:py-16">
+        <div
+          className="w-full py-12 md:py-16"
+          style={{ background: colors.white }}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent mb-6">
+            <h3
+              className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent"
+              style={{
+                background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               Want a Sneak Peek? Try the Demo!
             </h3>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
               <button
                 onClick={() => setCurrentPage("search")}
-                className="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition shadow-lg text-lg"
+                className="w-full sm:w-auto px-8 py-3 rounded-full hover:bg-blue-700 transition shadow-lg text-lg"
+                style={{ background: colors.primaryBlue, color: colors.white }}
               >
                 Demo
               </button>
               <button
                 onClick={() => setCurrentPage("waitlist")}
-                className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-teal-500 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-teal-600 transition shadow-lg text-lg"
+                className="w-full sm:w-auto px-8 py-3 rounded-full hover:from-blue-700 hover:to-teal-600 transition shadow-lg text-lg"
+                style={{
+                  background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+                  color: colors.white,
+                }}
               >
                 Join The Waitlist
               </button>
@@ -1141,18 +1238,17 @@ const LandingPage = ({ setCurrentPage }) => {
     </div>
   );
 };
-// GoogleMap Component - Updated colors
+
 const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
   const mapContainerRef = useRef(null);
   const [markers, setMarkers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Load Google Maps API script
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       if (!window.google) {
         const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places,geometry&callback=initMap`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_Maps_API_KEY}&libraries=places,geometry&callback=initMap`;
         script.async = true;
         script.defer = true;
         window.initMap = () => {
@@ -1201,7 +1297,7 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
           position: location,
           map: mapRef,
           icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png", // Consistent blue for user
             scaledSize: new window.google.maps.Size(40, 40),
           },
           title: "Your Location",
@@ -1248,12 +1344,12 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
                   position: pharmacy.location,
                   map: mapRef,
                   icon: {
-                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Red for pharmacies
                     scaledSize: new window.google.maps.Size(40, 40),
                   },
                   label: {
                     text: (index + 1).toString(),
-                    color: "white",
+                    color: colors.white, // Label color
                     fontSize: "14px",
                   },
                   title: pharmacy.place.name,
@@ -1306,7 +1402,9 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
     <div className="w-full h-full rounded-lg overflow-hidden">
       {loading && (
         <div className="flex items-center justify-center h-full bg-gray-100">
-          <p className="text-blue-600 font-semibold">Loading map...</p>
+          <p className="font-semibold" style={{ color: colors.primaryBlue }}>
+            Loading map...
+          </p>
         </div>
       )}
       <div ref={mapContainerRef} className="w-full h-full" />
@@ -1314,7 +1412,6 @@ const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
   );
 };
 
-// MapPage Component with updated colors
 const MapPage = ({
   address,
   medicine,
@@ -1326,17 +1423,28 @@ const MapPage = ({
 
   return (
     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 h-auto md:h-[500px]">
-      <div className="w-full md:w-2/3 relative bg-gray-100 rounded-lg overflow-hidden shadow-lg h-64 md:h-full">
+      <div
+        className="w-full md:w-2/3 relative rounded-lg overflow-hidden shadow-lg h-64 md:h-full"
+        style={{ background: "#E0F2FE" }}
+      >
+        {" "}
+        {/* Light blue background */}
         <GoogleMap
           address={address}
           pharmacies={{ list: pharmacies, setPharmacies }}
           mapRef={mapRef}
           setMapRef={setMapRef}
         />
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 z-10">
           <button
             onClick={onClearSearch}
-            className="bg-white text-blue-600 p-2 rounded-full shadow-lg hover:bg-blue-50 transition"
+            className="p-2 rounded-full shadow-lg transition"
+            style={{
+              background: colors.white,
+              color: colors.primaryBlue,
+              hover: colors.lightBlueShade,
+            }}
+            aria-label="Clear Search Results"
           >
             <X className="h-5 w-5" />
           </button>
@@ -1344,14 +1452,23 @@ const MapPage = ({
       </div>
 
       <div className="w-full md:w-1/3 space-y-4 overflow-y-auto md:max-h-[500px] pr-2">
-        <div className="bg-white rounded-lg shadow-lg p-4 border border-blue-100">
-          <h3 className="text-xl font-bold text-blue-700 mb-2">
+        <div
+          className="rounded-lg shadow-lg p-4"
+          style={{
+            background: colors.white,
+            border: `1px solid ${colors.borderLight}`,
+          }}
+        >
+          <h3
+            className="text-xl font-bold mb-2"
+            style={{ color: colors.primaryBlue }}
+          >
             Search Details
           </h3>
-          <p className="text-blue-600">
+          <p style={{ color: colors.primaryBlue }}>
             <span className="font-semibold">Address:</span> {address}
           </p>
-          <p className="text-blue-600">
+          <p style={{ color: colors.primaryBlue }}>
             <span className="font-semibold">Medicine:</span> {medicine}
           </p>
         </div>
@@ -1359,22 +1476,35 @@ const MapPage = ({
         {pharmacies.map((pharmacy, index) => (
           <div
             key={index}
-            className={`p-4 rounded-lg ${
-              pharmacy.hasStock
-                ? "bg-green-50 border-2 border-green-300"
-                : "bg-red-50 border-2 border-red-300"
-            } relative`}
+            className={`p-4 rounded-lg relative`}
+            style={{
+              background: pharmacy.hasStock ? "#D1FAE5" : "#FEE2E2", // Soft green for stock, soft red for no stock
+              border: pharmacy.hasStock
+                ? `2px solid #A7F3D0`
+                : `2px solid #FCA5A5`, // Borders matching
+            }}
           >
-            <div className="absolute top-2 right-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md text-blue-600 font-bold">
+            <div
+              className="absolute top-2 right-2 rounded-full w-8 h-8 flex items-center justify-center shadow-md font-bold"
+              style={{ background: colors.white, color: colors.primaryBlue }}
+            >
               {index + 1}
             </div>
-            <h4 className="font-bold text-lg text-blue-800">{pharmacy.name}</h4>
-            <p className="text-blue-700">{pharmacy.address}</p>
-            <p className="text-blue-600">Distance: {pharmacy.distance}</p>
+            <h4
+              className="font-bold text-lg"
+              style={{ color: colors.primaryBlue }}
+            >
+              {pharmacy.name}
+            </h4>
+            <p style={{ color: colors.grayText }}>{pharmacy.address}</p>
+            <p style={{ color: colors.grayText }}>
+              Distance: {pharmacy.distance}
+            </p>
             <div
-              className={`mt-2 font-semibold ${
-                pharmacy.hasStock ? "text-green-700" : "text-red-700"
-              }`}
+              className={`mt-2 font-semibold`}
+              style={{
+                color: pharmacy.hasStock ? "#047857" : "#B91C1C", // Darker green/red for text
+              }}
             >
               {pharmacy.hasStock
                 ? "✅ Medication in Stock"
@@ -1387,8 +1517,7 @@ const MapPage = ({
   );
 };
 
-// SearchPage Component with updated colors
-const SearchPage = () => {
+const SearchPage = ({ setCurrentPage }) => {
   const [address, setAddress] = useState("");
   const [medicine, setMedicine] = useState("");
   const [pharmacies, setPharmacies] = useState([]);
@@ -1399,8 +1528,16 @@ const SearchPage = () => {
   const [autocomplete, setAutocomplete] = useState(null);
 
   useEffect(() => {
+    let intervalId;
+
     const initAutocomplete = () => {
-      if (window.google && addressInputRef.current && !autocomplete) {
+      if (
+        window.google &&
+        window.google.maps &&
+        window.google.maps.places &&
+        addressInputRef.current &&
+        !autocomplete
+      ) {
         try {
           const autocompleteInstance =
             new window.google.maps.places.Autocomplete(
@@ -1416,25 +1553,20 @@ const SearchPage = () => {
           });
 
           setAutocomplete(autocompleteInstance);
+          clearInterval(intervalId);
         } catch (error) {
           console.error("Error initializing autocomplete:", error);
         }
       }
     };
 
-    if (window.google && window.google.maps && window.google.maps.places) {
-      initAutocomplete();
-    } else {
-      const checkGoogleMapsInterval = setInterval(() => {
-        if (window.google && window.google.maps && window.google.maps.places) {
-          initAutocomplete();
-          clearInterval(checkGoogleMapsInterval);
-        }
-      }, 500);
+    initAutocomplete();
+    intervalId = setInterval(initAutocomplete, 500);
 
-      return () => clearInterval(checkGoogleMapsInterval);
-    }
-  }, [addressInputRef.current, window.google]);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [autocomplete]);
 
   const handleSearch = () => {
     if (address.trim() && medicine.trim()) {
@@ -1450,13 +1582,47 @@ const SearchPage = () => {
     setAddress("");
     setMedicine("");
     setPharmacies([]);
+    setIsSearching(false);
+    if (addressInputRef.current) {
+      addressInputRef.current.value = "";
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex">
+    <div
+      className="min-h-screen"
+      style={{
+        background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+      }}
+    >
       <div className="container mx-auto p-4 md:p-8">
-        <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-6 border border-blue-100">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+        <div
+          className="p-6 md:p-8 rounded-xl shadow-lg mb-6 relative"
+          style={{
+            background: colors.white,
+            border: `1px solid ${colors.borderLight}`,
+          }}
+        >
+          <button
+            onClick={() => setCurrentPage("home")}
+            className="absolute top-4 right-4 p-2 rounded-full shadow-md transition"
+            style={{
+              background: colors.lightBackground,
+              color: colors.primaryBlue,
+              hover: colors.lightBlueShade,
+            }}
+            aria-label="Go to Home"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <h2
+            className="text-2xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent"
+            style={{
+              background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             Find Your Medication
           </h2>
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
@@ -1469,7 +1635,12 @@ const SearchPage = () => {
                 setAddress(e.target.value);
                 setShowResults(false);
               }}
-              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+              style={{
+                borderColor: colors.borderLight,
+                focusRingColor: colors.primaryBlue,
+                focusBorderColor: colors.primaryBlue,
+              }}
             />
             <input
               type="text"
@@ -1479,11 +1650,20 @@ const SearchPage = () => {
                 setMedicine(e.target.value);
                 setShowResults(false);
               }}
-              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+              style={{
+                borderColor: colors.borderLight,
+                focusRingColor: colors.primaryBlue,
+                focusBorderColor: colors.primaryBlue,
+              }}
             />
             <button
               onClick={handleSearch}
-              className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition flex items-center justify-center shadow-lg"
+              className="w-full md:w-auto text-white p-3 rounded-lg transition flex items-center justify-center shadow-lg"
+              style={{
+                background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+                hover: `linear-gradient(to right, ${colors.hoverBlue} 0%, #007070 100%)`,
+              }}
               disabled={isSearching}
             >
               <Search className="mr-2" /> Search
@@ -1491,13 +1671,19 @@ const SearchPage = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-blue-50 to-teal-50 border-l-4 border-blue-400 p-4 mb-6 rounded">
+        <div
+          className="border-l-4 p-4 mb-6 rounded"
+          style={{
+            background: `linear-gradient(to right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+            borderColor: colors.primaryBlue,
+          }}
+        >
           <div className="flex">
             <div className="flex-shrink-0">
-              <Info className="h-5 w-5 text-blue-500" />
+              <Info className="h-5 w-5" style={{ color: colors.primaryBlue }} />
             </div>
             <div className="ml-3">
-              <p className="text-sm text-blue-700">
+              <p className="text-sm" style={{ color: colors.primaryBlue }}>
                 <strong>Note:</strong> Currently this is a Demo Website. The
                 data is not real.
               </p>
@@ -1519,8 +1705,7 @@ const SearchPage = () => {
   );
 };
 
-// Waitlist Page Component with updated colors
-const WaitlistPage = () => {
+const WaitlistPage = ({ setCurrentPage }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -1559,7 +1744,6 @@ const WaitlistPage = () => {
         setSubmissionStatus(
           "You've been added to our waitlist! We'll notify you when MedPals launches in your area."
         );
-        // Reset form data
         setFormData({
           name: "",
           email: "",
@@ -1578,12 +1762,42 @@ const WaitlistPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-lg bg-white p-6 md:p-8 rounded-xl shadow-lg border border-blue-100">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 md:p-8"
+      style={{
+        background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+      }}
+    >
+      <div
+        className="w-full max-w-lg p-6 md:p-8 rounded-xl shadow-lg relative"
+        style={{
+          background: colors.white,
+          border: `1px solid ${colors.borderLight}`,
+        }}
+      >
+        <button
+          onClick={() => setCurrentPage("home")}
+          className="absolute top-4 right-4 p-2 rounded-full shadow-md transition"
+          style={{
+            background: colors.lightBackground,
+            color: colors.primaryBlue,
+            hover: colors.lightBlueShade,
+          }}
+          aria-label="Go to Home"
+        >
+          <X className="h-5 w-5" />
+        </button>
+        <h2
+          className="text-2xl md:text-3xl font-bold mb-4 bg-clip-text text-transparent"
+          style={{
+            background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
           Join The Waitlist
         </h2>
-        <p className="text-gray-700 mb-6">
+        <p style={{ color: colors.grayText }} className="mb-6">
           Be the first to know when MedPals launches in your area. Join our
           waitlist for early access and updates.
         </p>
@@ -1592,7 +1806,8 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="name"
-              className="block text-blue-700 mb-1 font-medium"
+              className="block mb-1 font-medium"
+              style={{ color: colors.primaryBlue }}
             >
               Full Name
             </label>
@@ -1603,7 +1818,12 @@ const WaitlistPage = () => {
               placeholder="Your name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+              style={{
+                borderColor: colors.borderLight,
+                focusRingColor: colors.primaryBlue,
+                focusBorderColor: colors.primaryBlue,
+              }}
               required
             />
           </div>
@@ -1611,7 +1831,8 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-blue-700 mb-1 font-medium"
+              className="block mb-1 font-medium"
+              style={{ color: colors.primaryBlue }}
             >
               Email Address
             </label>
@@ -1622,7 +1843,12 @@ const WaitlistPage = () => {
               placeholder="your.email@example.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+              style={{
+                borderColor: colors.borderLight,
+                focusRingColor: colors.primaryBlue,
+                focusBorderColor: colors.primaryBlue,
+              }}
               required
             />
           </div>
@@ -1630,7 +1856,8 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="postcode"
-              className="block text-blue-700 mb-1 font-medium"
+              className="block mb-1 font-medium"
+              style={{ color: colors.primaryBlue }}
             >
               Postcode
             </label>
@@ -1641,10 +1868,15 @@ const WaitlistPage = () => {
               placeholder="Your postcode"
               value={formData.postcode}
               onChange={handleChange}
-              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+              style={{
+                borderColor: colors.borderLight,
+                focusRingColor: colors.primaryBlue,
+                focusBorderColor: colors.primaryBlue,
+              }}
               required
             />
-            <p className="text-sm text-blue-600 mt-1">
+            <p className="text-sm mt-1" style={{ color: colors.primaryBlue }}>
               This helps us prioritize areas for our initial launch
             </p>
           </div>
@@ -1652,7 +1884,8 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="reason"
-              className="block text-blue-700 mb-1 font-medium"
+              className="block mb-1 font-medium"
+              style={{ color: colors.primaryBlue }}
             >
               Why are you interested in MedPals?
             </label>
@@ -1661,7 +1894,12 @@ const WaitlistPage = () => {
               name="reason"
               value={formData.reason}
               onChange={handleChange}
-              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+              style={{
+                borderColor: colors.borderLight,
+                focusRingColor: colors.primaryBlue,
+                focusBorderColor: colors.primaryBlue,
+              }}
               required
             >
               <option value="">Select a reason</option>
@@ -1678,7 +1916,8 @@ const WaitlistPage = () => {
           <div>
             <label
               htmlFor="ideas"
-              className="block text-blue-700 mb-1 font-medium"
+              className="block mb-1 font-medium"
+              style={{ color: colors.primaryBlue }}
             >
               Ideas & Features
             </label>
@@ -1688,10 +1927,15 @@ const WaitlistPage = () => {
               placeholder="Have any ideas or features you would love to see? Let us know!"
               value={formData.ideas}
               onChange={handleChange}
-              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 resize-none"
+              className="w-full p-3 border-2 rounded-lg h-24 resize-none focus:ring-2 focus:border-blue-500"
+              style={{
+                borderColor: colors.borderLight,
+                focusRingColor: colors.primaryBlue,
+                focusBorderColor: colors.primaryBlue,
+              }}
               rows={3}
             />
-            <p className="text-sm text-blue-600 mt-1">
+            <p className="text-sm mt-1" style={{ color: colors.primaryBlue }}>
               Your feedback helps us build the features that matter most to you
             </p>
           </div>
@@ -1703,9 +1947,18 @@ const WaitlistPage = () => {
               name="updates"
               checked={formData.updates}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4 rounded"
+              style={{
+                color: colors.primaryBlue,
+                focusRingColor: colors.primaryBlue,
+                borderColor: colors.grayText,
+              }}
             />
-            <label htmlFor="updates" className="ml-2 block text-blue-700">
+            <label
+              htmlFor="updates"
+              className="ml-2 block"
+              style={{ color: colors.primaryBlue }}
+            >
               Keep me updated on MedPals news and developments
             </label>
           </div>
@@ -1713,7 +1966,11 @@ const WaitlistPage = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="w-full bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition font-medium shadow-lg"
+            className="w-full text-white p-3 rounded-lg transition font-medium shadow-lg"
+            style={{
+              background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+              hover: `linear-gradient(to right, ${colors.hoverBlue} 0%, #007070 100%)`,
+            }}
           >
             Join Waitlist
           </button>
@@ -1730,7 +1987,7 @@ const WaitlistPage = () => {
             </div>
           )}
 
-          <p className="text-sm text-gray-600 mt-4">
+          <p className="text-sm mt-4" style={{ color: colors.grayText }}>
             By signing up, you agree to our Terms of Service and Privacy Policy.
             We'll only use your information to provide updates about MedPals.
           </p>
@@ -1739,19 +1996,57 @@ const WaitlistPage = () => {
     </div>
   );
 };
-// Blog Page Component with updated colors
-const BlogPage = () => {
+
+const BlogPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="max-w-2xl bg-white p-6 md:p-10 rounded-xl shadow-lg text-center border border-blue-100">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 md:p-8"
+      style={{
+        background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+      }}
+    >
+      <div
+        className="max-w-2xl p-6 md:p-10 rounded-xl shadow-lg text-center relative"
+        style={{
+          background: colors.white,
+          border: `1px solid ${colors.borderLight}`,
+        }}
+      >
+        <button
+          onClick={() => setCurrentPage("home")}
+          className="absolute top-4 right-4 p-2 rounded-full shadow-md transition"
+          style={{
+            background: colors.lightBackground,
+            color: colors.primaryBlue,
+            hover: colors.lightBlueShade,
+          }}
+          aria-label="Go to Home"
+        >
+          <X className="h-5 w-5" />
+        </button>
+        <h2
+          className="text-2xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent"
+          style={{
+            background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
           Our Blog
         </h2>
         <div className="flex justify-center mb-6">
-          <Newspaper className="h-16 w-16 text-blue-500" />
+          <Newspaper
+            className="h-16 w-16"
+            style={{ color: colors.primaryBlue }}
+          />
         </div>
-        <p className="text-xl font-bold text-blue-700 mb-4">Coming Soon!</p>
-        <p className="text-gray-600">
+        <p
+          className="text-xl font-bold mb-4"
+          style={{ color: colors.primaryBlue }}
+        >
+          Coming Soon!
+        </p>
+        <p style={{ color: colors.grayText }}>
           We're working on bringing you the latest healthcare insights,
           medication news, and helpful resources. Check back soon for valuable
           content to help you manage your health.
@@ -1761,49 +2056,124 @@ const BlogPage = () => {
   );
 };
 
-// About Page Component with updated colors
-const AboutPage = () => {
+const AboutPage = ({ setCurrentPage }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="max-w-4xl bg-white p-6 md:p-10 rounded-xl shadow-lg border border-blue-100">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 md:p-8"
+      style={{
+        background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+      }}
+    >
+      <div
+        className="max-w-4xl p-6 md:p-10 rounded-xl shadow-lg relative"
+        style={{
+          background: colors.white,
+          border: `1px solid ${colors.borderLight}`,
+        }}
+      >
+        <button
+          onClick={() => setCurrentPage("home")}
+          className="absolute top-4 right-4 p-2 rounded-full shadow-md transition"
+          style={{
+            background: colors.lightBackground,
+            color: colors.primaryBlue,
+            hover: colors.lightBlueShade,
+          }}
+          aria-label="Go to Home"
+        >
+          <X className="h-5 w-5" />
+        </button>
+        <h2
+          className="text-2xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent"
+          style={{
+            background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
           About Medpals
         </h2>
-        <p className="text-gray-700 leading-relaxed mb-4">
+        <p style={{ color: colors.grayText }} className="leading-relaxed mb-4">
           Medpals is an innovative platform designed by{" "}
-          <strong>Imperial College London</strong> Students to simplify
-          medication access. Our mission is to connect patients with nearby
-          pharmacies that have the exact medicines they need during emergency or
-          regular use.
+          <strong style={{ color: colors.primaryBlue }}>
+            Imperial College London
+          </strong>{" "}
+          students to simplify medication access. Our mission is to connect
+          patients with nearby pharmacies that have the exact medicines they
+          need during emergency or regular use.
         </p>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg text-center md:text-left border border-blue-200">
-            <h3 className="font-bold text-blue-600">Quick Search</h3>
-            <p className="text-blue-700">Find medicines near you instantly</p>
+          <div
+            className="p-4 rounded-lg text-center md:text-left border"
+            style={{
+              background: `linear-gradient(to bottom right, #E0F2FE 0%, ${colors.primaryBlue}1A 100%)`,
+              borderColor: colors.borderLight,
+            }}
+          >
+            <h3 className="font-bold" style={{ color: colors.primaryBlue }}>
+              Quick Search
+            </h3>
+            <p style={{ color: colors.grayText }}>
+              Find medicines near you instantly
+            </p>
           </div>
-          <div className="bg-gradient-to-br from-teal-50 to-teal-100 p-4 rounded-lg text-center md:text-left border border-teal-200">
-            <h3 className="font-bold text-teal-600">Accurate Results</h3>
-            <p className="text-teal-700">
+          <div
+            className="p-4 rounded-lg text-center md:text-left border"
+            style={{
+              background: `linear-gradient(to bottom right, #D1FAE5 0%, ${colors.accentTeal}1A 100%)`,
+              borderColor: colors.borderLight,
+            }}
+          >
+            <h3 className="font-bold" style={{ color: colors.accentTeal }}>
+              Accurate Results
+            </h3>
+            <p style={{ color: colors.grayText }}>
               Precise pharmacy and medicine location
             </p>
           </div>
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg text-center md:text-left border border-blue-200">
-            <h3 className="font-bold text-blue-600">User Friendly</h3>
-            <p className="text-blue-700">Simple and intuitive interface</p>
+          <div
+            className="p-4 rounded-lg text-center md:text-left border"
+            style={{
+              background: `linear-gradient(to bottom right, #E0F2FE 0%, ${colors.primaryBlue}1A 100%)`,
+              borderColor: colors.borderLight,
+            }}
+          >
+            <h3 className="font-bold" style={{ color: colors.primaryBlue }}>
+              User Friendly
+            </h3>
+            <p style={{ color: colors.grayText }}>
+              Simple and intuitive interface
+            </p>
           </div>
         </div>
 
-        {/* Founders Section */}
         <div className="mt-12">
-          <h3 className="text-xl md:text-2xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent text-center">
+          <h3
+            className="text-xl md:text-2xl font-bold mb-6 bg-clip-text text-transparent text-center"
+            style={{
+              background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             Meet Our Founders
           </h3>
 
-          {/* Group Photo */}
-          <div className="bg-gradient-to-br from-blue-50 to-teal-50 p-6 rounded-lg shadow-lg mb-6 border border-blue-100">
+          <div
+            className="p-6 rounded-lg shadow-lg mb-6 border"
+            style={{
+              background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+              borderColor: colors.borderLight,
+            }}
+          >
             <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg mb-6">
-              <div className="flex items-center justify-center bg-gradient-to-br from-blue-100 to-teal-100 h-64 md:h-80">
+              <div
+                className="flex items-center justify-center h-64 md:h-80"
+                style={{
+                  background: `linear-gradient(to bottom right, #E0F2FE 0%, ${colors.accentTeal}1A 100%)`,
+                }}
+              >
                 <img
                   src="Founders.jpeg"
                   alt="Medpals Founding Team"
@@ -1813,17 +2183,20 @@ const AboutPage = () => {
             </div>
 
             <div className="text-center md:text-left">
-              <h4 className="font-bold text-lg text-blue-700 mb-2">
+              <h4
+                className="font-bold text-lg mb-2"
+                style={{ color: colors.primaryBlue }}
+              >
                 The Founding Team
               </h4>
-              <p className="text-gray-700 mb-4">
+              <p style={{ color: colors.grayText }} className="mb-4">
                 Our team consists of six passionate Imperial College London and
                 Royal College of Arts students from diverse academic backgrounds
                 including Computer Science, Medicine, UI/UX and Business. United
                 by a shared vision to revolutionize medication accessibility, we
                 created Medpals as part of the HealthX Initiative.
               </p>
-              <p className="text-gray-700">
+              <p style={{ color: colors.grayText }}>
                 Together, we combine technical expertise, healthcare knowledge,
                 and entrepreneurial spirit to tackle the challenges of
                 medication access. Our mission is to ensure that everyone can
@@ -1832,17 +2205,26 @@ const AboutPage = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-50 to-teal-50 p-6 rounded-lg shadow-lg border border-blue-100">
-            <h4 className="font-bold text-lg text-blue-700 mb-4 text-center">
+          <div
+            className="p-6 rounded-lg shadow-lg border"
+            style={{
+              background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+              borderColor: colors.borderLight,
+            }}
+          >
+            <h4
+              className="font-bold text-lg mb-4 text-center"
+              style={{ color: colors.primaryBlue }}
+            >
               Our Vision
             </h4>
-            <p className="text-gray-700 mb-4">
+            <p style={{ color: colors.grayText }} className="mb-4">
               We envision a world where medication access is never a barrier to
               health and wellbeing. By bridging the gap between patients and
               pharmacies, we aim to reduce the stress and uncertainty that often
               accompanies the search for critical medications.
             </p>
-            <p className="text-gray-700">
+            <p style={{ color: colors.grayText }}>
               Medpals represents our commitment to leveraging technology for
               healthcare solutions that make a meaningful difference in people's
               everyday lives. As students at Imperial College London, we're
@@ -1856,8 +2238,7 @@ const AboutPage = () => {
   );
 };
 
-// Contact Page Component with updated colors
-const ContactPage = () => {
+const ContactPage = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [submissionStatus, setSubmissionStatus] = useState("");
@@ -1892,9 +2273,39 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg border border-blue-100">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 md:p-8"
+      style={{
+        background: `linear-gradient(to bottom right, ${colors.lightBlueShade} 0%, ${colors.lightBlueShade} 100%)`,
+      }}
+    >
+      <div
+        className="w-full max-w-md p-6 md:p-8 rounded-xl shadow-lg relative"
+        style={{
+          background: colors.white,
+          border: `1px solid ${colors.borderLight}`,
+        }}
+      >
+        <button
+          onClick={() => setCurrentPage("home")}
+          className="absolute top-4 right-4 p-2 rounded-full shadow-md transition"
+          style={{
+            background: colors.lightBackground,
+            color: colors.primaryBlue,
+            hover: colors.lightBlueShade,
+          }}
+          aria-label="Go to Home"
+        >
+          <X className="h-5 w-5" />
+        </button>
+        <h2
+          className="text-2xl md:text-3xl font-bold mb-6 bg-clip-text text-transparent"
+          style={{
+            background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
           Contact Us
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -1903,19 +2314,33 @@ const ContactPage = () => {
             placeholder="Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+            style={{
+              borderColor: colors.borderLight,
+              focusRingColor: colors.primaryBlue,
+              focusBorderColor: colors.primaryBlue,
+            }}
             required
           />
           <textarea
             placeholder="Your Message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="w-full p-3 border-2 border-blue-200 rounded-lg h-32 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border-2 rounded-lg h-32 resize-none focus:ring-2 focus:border-blue-500"
+            style={{
+              borderColor: colors.borderLight,
+              focusRingColor: colors.primaryBlue,
+              focusBorderColor: colors.primaryBlue,
+            }}
             required
           />
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition shadow-lg"
+            className="w-full text-white p-3 rounded-lg transition shadow-lg"
+            style={{
+              background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+              hover: `linear-gradient(to right, ${colors.hoverBlue} 0%, #007070 100%)`,
+            }}
           >
             Send Message
           </button>
@@ -1937,9 +2362,9 @@ const ContactPage = () => {
 };
 
 // Newsletter Subscription Page with updated colors
-const NewsletterPage = () => {
+const NewsletterPage = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
-  const [subscriptionStatus, setSubscriptionStatus] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState(""); // Correctly declared here
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
@@ -1957,20 +2382,27 @@ const NewsletterPage = () => {
       });
 
       if (response.ok) {
-        setSubscriptionStatus("Successfully subscribed to our newsletter!");
+        setSubmissionStatus("Successfully subscribed to our newsletter!");
         setEmail("");
       } else {
-        setSubscriptionStatus("Subscription failed. Please try again.");
+        setSubmissionStatus("Subscription failed. Please try again.");
       }
     } catch (error) {
       console.error("Subscription error:", error);
-      setSubscriptionStatus("An error occurred. Please try again later.");
+      setSubmissionStatus("An error occurred. Please try again later.");
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex items-center justify-center p-4 md:p-8">
-      <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg border border-blue-100">
+      <div className="w-full max-w-md bg-white p-6 md:p-8 rounded-xl shadow-lg border border-blue-100 relative">
+        <button
+          onClick={() => setCurrentPage("home")}
+          className="absolute top-4 right-4 bg-gray-100 text-blue-600 p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+          aria-label="Close"
+        >
+          <X className="h-5 w-5" />
+        </button>
         <h2 className="text-2xl md:text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
           Subscribe to Our Newsletter
         </h2>
@@ -1989,15 +2421,15 @@ const NewsletterPage = () => {
           >
             Subscribe
           </button>
-          {subscriptionStatus && (
+          {submissionStatus && (
             <div
               className={`mt-4 p-3 rounded-lg text-center ${
-                subscriptionStatus.includes("Successfully")
+                submissionStatus.includes("Successfully")
                   ? "bg-green-100 text-green-700"
                   : "bg-red-100 text-red-700"
               }`}
             >
-              {subscriptionStatus}
+              {submissionStatus}
             </div>
           )}
         </form>
@@ -2006,7 +2438,6 @@ const NewsletterPage = () => {
   );
 };
 
-// GoogleMapsApiScript component
 const GoogleMapsApiScript = () => {
   useEffect(() => {
     if (
@@ -2026,7 +2457,6 @@ const GoogleMapsApiScript = () => {
   return null;
 };
 
-// Main App Component
 const FindMyMedApp = () => {
   const [currentPage, setCurrentPage] = useState("home");
 
@@ -2035,17 +2465,17 @@ const FindMyMedApp = () => {
       case "home":
         return <LandingPage setCurrentPage={setCurrentPage} />;
       case "search":
-        return <SearchPage />;
+        return <SearchPage setCurrentPage={setCurrentPage} />;
       case "about":
-        return <AboutPage />;
+        return <AboutPage setCurrentPage={setCurrentPage} />;
       case "blog":
-        return <BlogPage />;
+        return <BlogPage setCurrentPage={setCurrentPage} />;
       case "contact":
-        return <ContactPage />;
+        return <ContactPage setCurrentPage={setCurrentPage} />;
       case "newsletter":
-        return <NewsletterPage />;
+        return <NewsletterPage setCurrentPage={setCurrentPage} />;
       case "waitlist":
-        return <WaitlistPage />;
+        return <WaitlistPage setCurrentPage={setCurrentPage} />;
       default:
         return <LandingPage setCurrentPage={setCurrentPage} />;
     }
