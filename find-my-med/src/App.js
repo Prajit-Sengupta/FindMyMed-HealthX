@@ -10,14 +10,25 @@ import {
   Heart,
   X,
   Menu,
+  Facebook,
+  Twitter,
+  Instagram,
 } from "lucide-react";
 
-// Header Component with Mobile Navigation
 const Header = ({ setCurrentPage }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-gradient-to-r from-blue-600 to-teal-500 text-white p-4 shadow-md">
+    <header
+      style={{
+        width: "100%",
+        height: "100%",
+        background: "#008080",
+        color: "white",
+        padding: 16,
+        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <img
@@ -71,7 +82,7 @@ const Header = ({ setCurrentPage }) => {
 
         {/* Mobile Navigation Overlay */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-gradient-to-r from-blue-600 to-teal-500 z-50 md:hidden">
+          <div className="fixed inset-0 bg-teal-600 z-50 md:hidden">
             <div className="flex justify-end p-4">
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -133,100 +144,1007 @@ const Header = ({ setCurrentPage }) => {
     </header>
   );
 };
+// Footer Component
+const Footer = ({ setCurrentPage }) => {
+  const [email, setEmail] = useState("");
+  const [subscriptionStatus, setSubscriptionStatus] = useState("");
 
-// Landing Page Component with Updated Colors
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("https://formspree.io/f/xjkyowlv", {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          interest_type: "newsletter",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setSubscriptionStatus("Successfully subscribed!");
+        setEmail("");
+      } else {
+        setSubscriptionStatus("Subscription failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Subscription error:", error);
+      setSubscriptionStatus("An error occurred. Please try again later.");
+    }
+  };
+
+  const navigationItems = [
+    { label: "Home", page: "home" },
+    { label: "About", page: "about" },
+    { label: "Services", page: "search" }, // Services maps to search/demo page
+    { label: "News", page: "blog" }, // News maps to blog page
+    { label: "Contact", page: "contact" },
+  ];
+
+  return (
+    <footer
+      style={{
+        width: "100%",
+        background: "linear-gradient(135deg, #1e40af 0%, #0891b2 100%)",
+        padding: "40px 0 0 0",
+        color: "white",
+      }}
+    >
+      {/* Main Footer Content */}
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "0 40px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: "60px",
+          flexWrap: "wrap",
+        }}
+      >
+        {/* Left Section - Newsletter */}
+        <div
+          style={{
+            flex: "1",
+            minWidth: "300px",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "24px",
+              fontWeight: "500",
+              marginBottom: "30px",
+              color: "white",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Join our newsletter to follow our news
+          </h3>
+
+          <form
+            onSubmit={handleNewsletterSubmit}
+            style={{
+              display: "flex",
+              gap: "12px",
+              marginBottom: "30px",
+              flexWrap: "wrap",
+            }}
+          >
+            <input
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{
+                flex: "1",
+                minWidth: "250px",
+                padding: "12px 16px",
+                borderRadius: "8px",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                background: "transparent",
+                color: "white",
+                fontSize: "16px",
+                outline: "none",
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                padding: "12px 24px",
+                background: "white",
+                color: "#1e40af",
+                border: "none",
+                borderRadius: "8px",
+                fontSize: "16px",
+                fontWeight: "500",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Subscribe Now
+            </button>
+          </form>
+
+          {subscriptionStatus && (
+            <div
+              style={{
+                color: subscriptionStatus.includes("Successfully")
+                  ? "#4ade80"
+                  : "#f87171",
+                fontSize: "14px",
+                marginBottom: "20px",
+              }}
+            >
+              {subscriptionStatus}
+            </div>
+          )}
+
+          {/* Logo and Tagline */}
+          <div style={{ marginBottom: "20px" }}>
+            <div
+              style={{
+                fontSize: "24px",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              medpals
+            </div>
+            <div
+              style={{
+                fontSize: "16px",
+                fontWeight: "300",
+                opacity: "0.9",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              Track it. Trace it. Take it
+            </div>
+          </div>
+
+          {/* Social Icons */}
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+            }}
+          ></div>
+        </div>
+
+        {/* Right Section - Navigation */}
+        <div
+          style={{
+            minWidth: "150px",
+          }}
+        >
+          <h4
+            style={{
+              fontSize: "18px",
+              fontWeight: "500",
+              marginBottom: "20px",
+              color: "white",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Our Company
+          </h4>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
+            {navigationItems.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(item.page)}
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "300",
+                  color: "rgba(255, 255, 255, 0.9)",
+                  cursor: "pointer",
+                  fontFamily: "Inter, sans-serif",
+                  background: "none",
+                  border: "none",
+                  textAlign: "left",
+                  padding: "0",
+                  transition: "color 0.3s ease",
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "white")}
+                onMouseLeave={(e) =>
+                  (e.target.style.color = "rgba(255, 255, 255, 0.9)")
+                }
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright Section */}
+      <div
+        style={{
+          marginTop: "40px",
+          padding: "16px 0",
+          background: "rgba(0, 0, 0, 0.1)",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "14px",
+            fontWeight: "300",
+            color: "rgba(255, 255, 255, 0.8)",
+            fontFamily: "Inter, sans-serif",
+          }}
+        >
+          medpals, 2025 © All Rights Reserved
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+// Landing Page Component with Updated Colors and Our Product Section
 const LandingPage = ({ setCurrentPage }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between">
-        {/* Text Content */}
-        <div className="w-full md:w-1/2 md:pr-12 text-center md:text-left mb-8 md:mb-0">
-          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent mb-6 leading-tight">
-            Track it. Trace it. Take it
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-8">
-            Medpals connects you to the medications you need. Quickly, easily
-            and with care. Whether it's a life-saving prescription at your local
-            chemist, we ensure you're supported every step of the way.
-          </p>
-          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-4 md:space-y-0 md:space-x-4">
-            <button
-              onClick={() => setCurrentPage("search")}
-              className="bg-gradient-to-r from-blue-600 to-teal-500 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-teal-600 transition flex items-center justify-center shadow-lg"
+      {/* Hero Section - Updated to match Figma exactly */}
+      <div className="container mx-auto px-4 py-12">
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            gap: 18,
+            display: "inline-flex",
+            flexWrap: "wrap",
+          }}
+        >
+          {/* Left Side - Text Content */}
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 552,
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              gap: 20,
+              display: "inline-flex",
+            }}
+          >
+            {/* Main Heading */}
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 562,
+                color: "#005AB5",
+                fontSize: "clamp(32px, 6vw, 48px)",
+                fontFamily: "Manrope, sans-serif",
+                fontWeight: "800",
+                lineHeight: "clamp(40px, 7vw, 56px)",
+                wordWrap: "break-word",
+              }}
             >
-              Learn More <ChevronRight className="ml-2" />
-            </button>
-            <button
-              onClick={() => setCurrentPage("waitlist")}
-              className="bg-white text-blue-600 border-2 border-blue-600 px-8 py-3 rounded-full hover:bg-blue-50 transition flex items-center justify-center shadow-lg"
+              Track it. Trace it. Take it
+            </div>
+
+            {/* Description Text */}
+            <div style={{ alignSelf: "stretch" }}>
+              <span
+                style={{
+                  color: "black",
+                  fontSize: "clamp(16px, 2.5vw, 20px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "700",
+                  lineHeight: "clamp(28px, 4vw, 36px)",
+                  wordWrap: "break-word",
+                }}
+              >
+                medpals
+              </span>
+              <span
+                style={{
+                  color: "black",
+                  fontSize: "clamp(16px, 2.5vw, 20px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "400",
+                  lineHeight: "clamp(28px, 4vw, 36px)",
+                  wordWrap: "break-word",
+                }}
+              >
+                {" "}
+                connects you to the medication you need. Quickly, easily, and
+                with care. Whether it's a life-saving prescription or your daily
+                routine, we make sure you're supported every step of the way.
+                Because access to your meds shouldn't be a fight—it should be a
+                given.
+              </span>
+            </div>
+
+            {/* Buttons */}
+            <div
+              style={{
+                justifyContent: "flex-start",
+                alignItems: "center",
+                gap: 20,
+                display: "inline-flex",
+                flexWrap: "wrap",
+              }}
             >
-              Demo
-            </button>
+              {/* Learn More Button */}
+              <button
+                onClick={() => {
+                  const productSection = document.getElementById(
+                    "our-product-section"
+                  );
+                  if (productSection) {
+                    productSection.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+                style={{
+                  paddingLeft: 30,
+                  paddingRight: 30,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  background:
+                    "radial-gradient(ellipse 95.59% 77.23% at 98.53% 51.06%, #005AB5 0%, #008080 100%)",
+                  borderRadius: 100,
+                  outline: "2px #005AB5 solid",
+                  outlineOffset: "-2px",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 20,
+                  display: "flex",
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                <div
+                  style={{
+                    color: "white",
+                    fontSize: "clamp(16px, 2.5vw, 20px)",
+                    fontFamily: "Manrope, sans-serif",
+                    fontWeight: "700",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  Learn More
+                </div>
+              </button>
+
+              {/* Demo Button */}
+              <button
+                onClick={() => setCurrentPage("search")}
+                style={{
+                  paddingLeft: 30,
+                  paddingRight: 30,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  borderRadius: 100,
+                  outline: "2px #005AB5 solid",
+                  outlineOffset: "-2px",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: 20,
+                  display: "flex",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                <div
+                  style={{
+                    color: "#005AB5",
+                    fontSize: "clamp(16px, 2.5vw, 20px)",
+                    fontFamily: "Manrope, sans-serif",
+                    fontWeight: "700",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  Demo
+                </div>
+              </button>
+            </div>
           </div>
 
-          {/* Waitlist Banner */}
-          <div className="mt-8 bg-gradient-to-r from-blue-50 to-teal-50 border-l-4 border-blue-400 p-4 rounded shadow-sm">
-            <div className="flex items-start">
-              <Info className="h-6 w-6 text-blue-500 flex-shrink-0 mt-0.5" />
-              <div className="ml-3">
-                <h3 className="font-medium text-blue-800">
-                  We're rolling out soon.
-                </h3>
-                <p className="text-blue-700 mt-1">
-                  We're launching in selected areas soon. Join the waitlist and
-                  be the first to know when medpals is available near you.
-                </p>
-                <button
-                  onClick={() => setCurrentPage("waitlist")}
-                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition text-sm"
+          {/* Right Side - Image Illustration */}
+          <div
+            style={{
+              flex: "1",
+              minWidth: "300px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                maxWidth: "500px",
+              }}
+            >
+              {/* Background gradient blob */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: "0",
+                  background:
+                    "linear-gradient(135deg, rgba(0, 90, 181, 0.1) 0%, rgba(0, 128, 128, 0.1) 100%)",
+                  borderRadius: "24px",
+                  transform: "rotate(6deg)",
+                  opacity: "0.8",
+                }}
+              ></div>
+
+              {/* Main image container */}
+              <div
+                style={{
+                  position: "relative",
+                  background:
+                    "linear-gradient(135deg, rgba(0, 90, 181, 0.05) 0%, rgba(0, 128, 128, 0.05) 100%)",
+                  borderRadius: "24px",
+                  padding: "32px",
+                  minHeight: "400px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Replace this img src with your actual image */}
+                <img
+                  src="landing_image.png"
+                  alt="Medical illustration showing medication bottles, pills and healthcare symbols"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    maxWidth: "450px",
+                    objectFit: "contain",
+                    borderRadius: "12px",
+                  }}
+                  onError={(e) => {
+                    // Fallback if image doesn't load - show the original illustration
+                    e.target.style.display = "none";
+                    e.target.nextElementSibling.style.display = "flex";
+                  }}
+                />
+
+                {/* Fallback illustration (hidden by default) */}
+                <div
+                  style={{
+                    display: "none",
+                    width: "100%",
+                    height: "400px",
+                    background:
+                      "linear-gradient(135deg, #A7CCED 0%, #005AB5 100%)",
+                    borderRadius: "12px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    gap: "20px",
+                  }}
                 >
-                  Join our waitlist →
-                </button>
+                  <div
+                    style={{
+                      fontSize: "64px",
+                    }}
+                  >
+                    💊🏥⚕️
+                  </div>
+                  <div
+                    style={{
+                      color: "white",
+                      fontSize: "18px",
+                      fontFamily: "Manrope, sans-serif",
+                      fontWeight: "600",
+                      textAlign: "center",
+                    }}
+                  >
+                    Medical Illustration
+                  </div>
+                </div>
+
+                {/* Decorative elements */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "16px",
+                    left: "16px",
+                    color: "#005AB5",
+                    opacity: "0.3",
+                  }}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                  </svg>
+                </div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "32px",
+                    right: "32px",
+                    width: "16px",
+                    height: "16px",
+                    background: "#008080",
+                    borderRadius: "50%",
+                    opacity: "0.4",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "48px",
+                    left: "32px",
+                    width: "24px",
+                    height: "24px",
+                    background: "#005AB5",
+                    borderRadius: "50%",
+                    opacity: "0.3",
+                  }}
+                ></div>
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "16px",
+                    right: "48px",
+                    color: "#008080",
+                    opacity: "0.25",
+                  }}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Illustration Placeholder */}
-        <div className="w-full md:w-1/2 hidden md:block">
-          <div className="bg-gradient-to-br from-blue-100 to-teal-100 rounded-xl p-8 flex items-center justify-center">
-            <img
-              src="landing_image.png"
-              alt="Healthcare Illustration"
-              className="rounded-lg shadow-lg"
-            />
+      {/* Waitlist Banner - Full Width */}
+      <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-8">
+        <div className="container mx-auto px-4">
+          <div
+            style={{
+              width: "100%",
+              paddingLeft: "clamp(20px, 5vw, 82px)",
+              paddingRight: "clamp(20px, 5vw, 82px)",
+              paddingTop: 24,
+              paddingBottom: 24,
+              background: "#EDF5FB",
+              borderRadius: 180,
+              justifyContent: "flex-start",
+              alignItems: "center",
+              gap: "clamp(20px, 10vw, 142px)",
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            <div
+              style={{
+                minWidth: 200,
+                color: "#008080",
+                fontSize: "clamp(28px, 4vw, 40px)",
+                fontFamily: "Manrope, sans-serif",
+                fontWeight: "800",
+                lineHeight: "56px",
+                wordWrap: "break-word",
+              }}
+            >
+              We're rolling out soon.
+            </div>
+            <div
+              style={{
+                flex: "1",
+                minWidth: 300,
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                gap: 20,
+                display: "flex",
+              }}
+            >
+              <div
+                style={{
+                  alignSelf: "stretch",
+                }}
+              >
+                <span
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "Manrope, sans-serif",
+                    fontWeight: "400",
+                    lineHeight: "36px",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  We're launching in selected areas soon. Join the waitlist and
+                  be the first to know when{" "}
+                </span>
+                <span
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "Manrope, sans-serif",
+                    fontWeight: "700",
+                    lineHeight: "36px",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  medpals
+                </span>
+                <span
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "Manrope, sans-serif",
+                    fontWeight: "400",
+                    lineHeight: "36px",
+                    wordWrap: "break-word",
+                  }}
+                >
+                  {" "}
+                  is available near you.
+                </span>
+              </div>
+              <div
+                style={{
+                  width: 177,
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  gap: 12,
+                  display: "flex",
+                }}
+              >
+                <div
+                  style={{
+                    alignSelf: "stretch",
+                    height: 47,
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    gap: 28,
+                    display: "flex",
+                  }}
+                >
+                  <button
+                    onClick={() => setCurrentPage("waitlist")}
+                    style={{
+                      height: 47,
+                      paddingLeft: 30,
+                      paddingRight: 30,
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                      background: "#005AB5",
+                      borderRadius: 48,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: 8,
+                      display: "flex",
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.target.style.background = "#004A9F")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.background = "#005AB5")
+                    }
+                  >
+                    <div
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontFamily: "Manrope, sans-serif",
+                        fontWeight: "700",
+                        lineHeight: "32px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      Join Waitlist
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Our Product Section */}
-      <div className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          {/* Product Journey Image */}
-          <div className="w-full max-w-6xl mx-auto mb-12">
-            <img
-              src="Frame 35.jpeg"
-              alt="Sofia's journey using MedPals - from searching for medication to finding nearby pharmacies"
-              className="w-full h-auto rounded-2xl shadow-lg"
-            />
-          </div>
+      <div id="our-product-section" className="w-full bg-white">
+        {/* Main Title */}
+        <div className="text-center py-12 md:py-16">
+          <h2
+            style={{
+              color: "#005AB5",
+              fontSize: "clamp(32px, 5vw, 44px)",
+              fontFamily: "Manrope, sans-serif",
+              fontWeight: "800",
+              lineHeight: "1.3",
+            }}
+          >
+            Our Product
+          </h2>
+        </div>
 
-          {/* CTA Section */}
-          <div className="text-center">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent mb-4">
+        {/* Step 1: Sofia's Problem + Character */}
+        <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between max-w-7xl">
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8 xl:pr-12">
+              <h3
+                style={{
+                  color: "#005AB5",
+                  fontSize: "clamp(20px, 4vw, 32px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "700",
+                  lineHeight: "1.3",
+                  marginBottom: "16px",
+                }}
+              >
+                "I knew I was down to my last dose. I just didn't think I'd have
+                to fight to find the next one."
+              </h3>
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "clamp(14px, 2.5vw, 20px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "400",
+                  lineHeight: "1.7",
+                }}
+              >
+                Meet Sofia, 26, living with epilepsy in London. She manages her
+                condition carefully but this time, her repeat prescription
+                didn't arrive.
+                <br />
+                It's late. Her local pharmacy is closed.
+              </p>
+            </div>
+
+            {/* Character Illustration */}
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <div className="relative">
+                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-200 to-teal-200 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="text-7xl sm:text-8xl md:text-9xl">👩🏻‍⚕️</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Step 2: She opens medpals */}
+        <div className="w-full bg-white py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row-reverse items-center justify-between max-w-7xl">
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pl-8 xl:pl-12">
+              <h3
+                style={{
+                  color: "#005AB5",
+                  fontSize: "clamp(20px, 4vw, 32px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "700",
+                  lineHeight: "1.3",
+                  marginBottom: "16px",
+                }}
+              >
+                She opens medpals.
+              </h3>
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "clamp(14px, 2.5vw, 20px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "400",
+                  lineHeight: "1.7",
+                }}
+              >
+                No panic. No guesswork. Just action.
+                <br />
+                Sofia types in: Levetiracetam 500mg
+                <br />
+                Or she could simply snap a photo of the box.
+              </p>
+            </div>
+
+            {/* Phone Illustration */}
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <div className="relative">
+                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                  <img
+                    src="app_search_screen.png"
+                    alt="Phone with search screen"
+                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform rotate-12 hover:rotate-6 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Step 3: Find Your Medication */}
+        <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between max-w-7xl">
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8 xl:pr-12">
+              <h3
+                style={{
+                  color: "#005AB5",
+                  fontSize: "clamp(20px, 4vw, 32px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "700",
+                  lineHeight: "1.3",
+                  marginBottom: "16px",
+                }}
+              >
+                "Find Your Medication" – smart search and image scan options
+              </h3>
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "clamp(14px, 2.5vw, 20px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "400",
+                  lineHeight: "1.7",
+                }}
+              >
+                She adds her postcode.
+              </p>
+            </div>
+
+            {/* Phone Illustration */}
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <div className="relative">
+                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                  <img
+                    src="app_step2.png"
+                    alt="Phone with location screen"
+                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Step 4: Within seconds */}
+        <div className="w-full bg-white py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row-reverse items-center justify-between max-w-7xl">
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pl-8 xl:pl-12">
+              <h3
+                style={{
+                  color: "#005AB5",
+                  fontSize: "clamp(20px, 4vw, 32px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "700",
+                  lineHeight: "1.3",
+                  marginBottom: "16px",
+                }}
+              >
+                Within seconds, she sees nearby pharmacies.
+              </h3>
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "clamp(14px, 2.5vw, 20px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "400",
+                  lineHeight: "1.7",
+                }}
+              >
+                Some are open late. Some are out of stock.
+                <br />
+                Two are in stock and close by.
+              </p>
+            </div>
+
+            {/* Phone Illustration */}
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <div className="relative">
+                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-blue-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                  <img
+                    src="app_step3.png"
+                    alt="Phone with map screen"
+                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform rotate-6 hover:rotate-12 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Step 5: Final - Sofia's Success */}
+        <div className="w-full bg-gradient-to-r from-blue-50 to-teal-50 py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between max-w-7xl">
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8 xl:pr-12">
+              <h3
+                style={{
+                  color: "#005AB5",
+                  fontSize: "clamp(20px, 4vw, 32px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "700",
+                  lineHeight: "1.3",
+                  marginBottom: "16px",
+                }}
+              >
+                Sofia taps "Directions", throws on a coat, and walks just 600
+                metres.
+              </h3>
+              <p
+                style={{
+                  color: "black",
+                  fontSize: "clamp(14px, 2.5vw, 20px)",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: "400",
+                  lineHeight: "1.7",
+                }}
+              >
+                Sofia taps "Directions", throws on a coat, and walks just 600
+                metres. The pharmacist hands her an emergency supply. She
+                breathes out—for now, she's safe.
+              </p>
+            </div>
+
+            {/* Phone Illustration */}
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <div className="relative">
+                <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-green-100 to-teal-100 rounded-full flex items-center justify-center shadow-lg">
+                  <img
+                    src="app_step4.png"
+                    alt="Phone with success screen"
+                    className="w-40 h-72 sm:w-44 sm:h-80 md:w-48 md:h-84 object-cover rounded-2xl shadow-xl transform -rotate-12 hover:-rotate-6 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="w-full bg-white py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent mb-6">
               Want a Sneak Peek? Try the Demo!
             </h3>
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
               <button
                 onClick={() => setCurrentPage("search")}
-                className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition shadow-lg"
+                className="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition shadow-lg text-lg"
               >
                 Demo
               </button>
               <button
                 onClick={() => setCurrentPage("waitlist")}
-                className="bg-gradient-to-r from-blue-600 to-teal-500 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-teal-600 transition shadow-lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-teal-500 text-white px-8 py-3 rounded-full hover:from-blue-700 hover:to-teal-600 transition shadow-lg text-lg"
               >
                 Join The Waitlist
               </button>
@@ -237,7 +1155,6 @@ const LandingPage = ({ setCurrentPage }) => {
     </div>
   );
 };
-
 // GoogleMap Component - Updated colors
 const GoogleMap = ({ address, pharmacies, mapRef, setMapRef }) => {
   const mapContainerRef = useRef(null);
@@ -623,6 +1540,7 @@ const WaitlistPage = () => {
     email: "",
     postcode: "",
     reason: "",
+    ideas: "",
     updates: true,
   });
   const [submissionStatus, setSubmissionStatus] = useState("");
@@ -661,6 +1579,7 @@ const WaitlistPage = () => {
           email: "",
           postcode: "",
           reason: "",
+          ideas: "",
           updates: true,
         });
       } else {
@@ -683,7 +1602,7 @@ const WaitlistPage = () => {
           waitlist for early access and updates.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-4">
           <div>
             <label
               htmlFor="name"
@@ -770,6 +1689,27 @@ const WaitlistPage = () => {
             </select>
           </div>
 
+          <div>
+            <label
+              htmlFor="ideas"
+              className="block text-blue-700 mb-1 font-medium"
+            >
+              Ideas & Features
+            </label>
+            <textarea
+              id="ideas"
+              name="ideas"
+              placeholder="Have any ideas or features you would love to see? Let us know!"
+              value={formData.ideas}
+              onChange={handleChange}
+              className="w-full p-3 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 resize-none"
+              rows={3}
+            />
+            <p className="text-sm text-blue-600 mt-1">
+              Your feedback helps us build the features that matter most to you
+            </p>
+          </div>
+
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -785,7 +1725,8 @@ const WaitlistPage = () => {
           </div>
 
           <button
-            type="submit"
+            type="button"
+            onClick={handleSubmit}
             className="w-full bg-gradient-to-r from-blue-600 to-teal-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-teal-600 transition font-medium shadow-lg"
           >
             Join Waitlist
@@ -807,12 +1748,11 @@ const WaitlistPage = () => {
             By signing up, you agree to our Terms of Service and Privacy Policy.
             We'll only use your information to provide updates about MedPals.
           </p>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
-
 // Blog Page Component with updated colors
 const BlogPage = () => {
   return (
@@ -848,7 +1788,7 @@ const AboutPage = () => {
           <strong>Imperial College London</strong> Students to simplify
           medication access. Our mission is to connect patients with nearby
           pharmacies that have the exact medicines they need during emergency or
-          regular use (HealthX Initiative).
+          regular use.
         </p>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1130,6 +2070,7 @@ const FindMyMedApp = () => {
       <GoogleMapsApiScript />
       <Header setCurrentPage={setCurrentPage} />
       {renderPage()}
+      <Footer setCurrentPage={setCurrentPage} />
     </div>
   );
 };
