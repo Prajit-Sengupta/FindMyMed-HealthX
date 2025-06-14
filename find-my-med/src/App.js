@@ -1711,10 +1711,17 @@ const WaitlistPage = ({ setCurrentPage }) => {
     email: "",
     postcode: "",
     reason: "",
-    ideas: "",
+    ideas: "", // Included 'ideas' field
     updates: true,
   });
   const [submissionStatus, setSubmissionStatus] = useState("");
+  const [postcodeResults, setPostcodeResults] = useState([]);
+  const [isLoadingPostcodes, setIsLoadingPostcodes] = useState(false);
+  const [showPostcodeSuggestions, setShowPostcodeSuggestions] = useState(false);
+
+  // Ref for the postcode input to handle clicks outside for suggestions
+  const postcodeInputRef = useRef(null);
+  const suggestionsBoxRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -1722,13 +1729,60 @@ const WaitlistPage = ({ setCurrentPage }) => {
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    // Logic for postcode autocomplete suggestions
+    if (name === "postcode") {
+      if (value.length >= 2) {
+        fetchPostcodeSuggestions(value);
+      } else {
+        setPostcodeResults([]);
+        setShowPostcodeSuggestions(false);
+      }
+    }
+  };
+
+  const fetchPostcodeSuggestions = async (query) => {
+    // Only search if query is at least 2 characters (already checked in handleChange, but good to double check)
+    if (query.length < 2) return;
+
+    setIsLoadingPostcodes(true);
+    setShowPostcodeSuggestions(true);
+
+    try {
+      // Using the UK postcodes API (free and public)
+      const response = await fetch(
+        `https://api.postcodes.io/postcodes/${query}/autocomplete`
+      );
+      const data = await response.json();
+
+      if (data.result) {
+        setPostcodeResults(data.result);
+      } else {
+        setPostcodeResults([]);
+      }
+    } catch (error) {
+      console.error("Error fetching postcodes:", error);
+      setPostcodeResults([]);
+    } finally {
+      setIsLoadingPostcodes(false);
+    }
+  };
+
+  const handleSelectPostcode = (postcode) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      postcode,
+    }));
+    setPostcodeResults([]); // Clear results after selection
+    setShowPostcodeSuggestions(false); // Hide suggestions after selection
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://formspree.io/f/xjkyowlv", {
+      // Use your specified FormSpree endpoint
+      const response = await fetch("https://formspree.io/f/mqaqjrbw", {
         method: "POST",
         body: JSON.stringify({
           ...formData,
@@ -1742,8 +1796,9 @@ const WaitlistPage = ({ setCurrentPage }) => {
 
       if (response.ok) {
         setSubmissionStatus(
-          "You've been added to our waitlist! We'll notify you when MedPals launches in your area."
+          "You've been added to our waitlist! We'll notify you when Medpals launches in your area."
         );
+        // Reset form data
         setFormData({
           name: "",
           email: "",
@@ -1752,6 +1807,7 @@ const WaitlistPage = ({ setCurrentPage }) => {
           ideas: "",
           updates: true,
         });
+        setPostcodeResults([]); // Clear any lingering postcode suggestions
       } else {
         setSubmissionStatus("Submission failed. Please try again.");
       }
@@ -1760,6 +1816,25 @@ const WaitlistPage = ({ setCurrentPage }) => {
       setSubmissionStatus("An error occurred. Please try again later.");
     }
   };
+
+  // Close postcode suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        postcodeInputRef.current &&
+        !postcodeInputRef.current.contains(event.target) &&
+        suggestionsBoxRef.current &&
+        !suggestionsBoxRef.current.contains(event.target)
+      ) {
+        setShowPostcodeSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []); // Empty dependency array means this runs once on mount and cleans up on unmount
 
   return (
     <div
@@ -1781,7 +1856,8 @@ const WaitlistPage = ({ setCurrentPage }) => {
           style={{
             background: colors.lightBackground,
             color: colors.primaryBlue,
-            hover: colors.lightBlueShade,
+            // Note: inline hover styles need to be handled via JS event listeners or Tailwind JIT
+            // For simplicity in this direct styling, the hover class is omitted if Tailwind JIT isn't active for inline style
           }}
           aria-label="Go to Home"
         >
@@ -1798,11 +1874,11 @@ const WaitlistPage = ({ setCurrentPage }) => {
           Join The Waitlist
         </h2>
         <p style={{ color: colors.grayText }} className="mb-6">
-          Be the first to know when MedPals launches in your area. Join our
+          Be the first to know when Medpals launches in your area. Join our
           waitlist for early access and updates.
         </p>
 
-        <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="name"
@@ -1818,180 +1894,243 @@ const WaitlistPage = ({ setCurrentPage }) => {
               placeholder="Your name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
+              className="w-full p-3 border-2 rounded-lg focus:ring-2"
               style={{
                 borderColor: colors.borderLight,
-                focusRingColor: colors.primaryBlue,
-                focusBorderColor: colors.primaryBlue,
+                // Tailwind classes for focus-ring-blue-500 and focus-border-blue-500 are handled here
+                // as `focus:ring-2` will use default theme unless overridden by config or a custom variable
               }}
               required
             />
           </div>
+        </form>
 
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 font-medium"
-              style={{ color: colors.primaryBlue }}
-            >
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="your.email@example.com"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
-              style={{
-                borderColor: colors.borderLight,
-                focusRingColor: colors.primaryBlue,
-                focusBorderColor: colors.primaryBlue,
-              }}
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="postcode"
-              className="block mb-1 font-medium"
-              style={{ color: colors.primaryBlue }}
-            >
-              Postcode
-            </label>
-            <input
-              type="text"
-              id="postcode"
-              name="postcode"
-              placeholder="Your postcode"
-              value={formData.postcode}
-              onChange={handleChange}
-              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
-              style={{
-                borderColor: colors.borderLight,
-                focusRingColor: colors.primaryBlue,
-                focusBorderColor: colors.primaryBlue,
-              }}
-              required
-            />
-            <p className="text-sm mt-1" style={{ color: colors.primaryBlue }}>
-              This helps us prioritize areas for our initial launch
-            </p>
-          </div>
-
-          <div>
-            <label
-              htmlFor="reason"
-              className="block mb-1 font-medium"
-              style={{ color: colors.primaryBlue }}
-            >
-              Why are you interested in MedPals?
-            </label>
-            <select
-              id="reason"
-              name="reason"
-              value={formData.reason}
-              onChange={handleChange}
-              className="w-full p-3 border-2 rounded-lg focus:ring-2 focus:border-blue-500"
-              style={{
-                borderColor: colors.borderLight,
-                focusRingColor: colors.primaryBlue,
-                focusBorderColor: colors.primaryBlue,
-              }}
-              required
-            >
-              <option value="">Select a reason</option>
-              <option value="personal">For personal medication needs</option>
-              <option value="family">For family medication needs</option>
-              <option value="professional">
-                I'm a healthcare professional
-              </option>
-              <option value="business">For business opportunities</option>
-              <option value="other">Other reason</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="ideas"
-              className="block mb-1 font-medium"
-              style={{ color: colors.primaryBlue }}
-            >
-              Ideas & Features
-            </label>
-            <textarea
-              id="ideas"
-              name="ideas"
-              placeholder="Have any ideas or features you would love to see? Let us know!"
-              value={formData.ideas}
-              onChange={handleChange}
-              className="w-full p-3 border-2 rounded-lg h-24 resize-none focus:ring-2 focus:border-blue-500"
-              style={{
-                borderColor: colors.borderLight,
-                focusRingColor: colors.primaryBlue,
-                focusBorderColor: colors.primaryBlue,
-              }}
-              rows={3}
-            />
-            <p className="text-sm mt-1" style={{ color: colors.primaryBlue }}>
-              Your feedback helps us build the features that matter most to you
-            </p>
-          </div>
-
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="updates"
-              name="updates"
-              checked={formData.updates}
-              onChange={handleChange}
-              className="h-4 w-4 rounded"
-              style={{
-                color: colors.primaryBlue,
-                focusRingColor: colors.primaryBlue,
-                borderColor: colors.grayText,
-              }}
-            />
-            <label
-              htmlFor="updates"
-              className="ml-2 block"
-              style={{ color: colors.primaryBlue }}
-            >
-              Keep me updated on MedPals news and developments
-            </label>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="w-full text-white p-3 rounded-lg transition font-medium shadow-lg"
-            style={{
-              background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
-              hover: `linear-gradient(to right, ${colors.hoverBlue} 0%, #007070 100%)`,
-            }}
+        <div>
+          <label
+            htmlFor="email"
+            className="block mb-1 font-medium"
+            style={{ color: colors.primaryBlue }}
           >
-            Join Waitlist
-          </button>
+            Email Address
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your.email@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-3 border-2 rounded-lg focus:ring-2"
+            style={{
+              borderColor: colors.borderLight,
+            }}
+            required
+          />
+        </div>
 
-          {submissionStatus && (
-            <div
-              className={`mt-4 p-3 rounded-lg text-center ${
-                submissionStatus.includes("added to our waitlist")
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-              }`}
-            >
-              {submissionStatus}
+        <div className="relative">
+          {" "}
+          {/* Keep relative for absolute positioning of suggestions */}
+          <label
+            htmlFor="postcode"
+            className="block mb-1 font-medium"
+            style={{ color: colors.primaryBlue }}
+          >
+            Postcode
+          </label>
+          <input
+            ref={postcodeInputRef}
+            type="text"
+            id="postcode"
+            name="postcode"
+            placeholder="Your postcode"
+            value={formData.postcode}
+            onChange={handleChange}
+            className="w-full p-3 border-2 rounded-lg focus:ring-2"
+            style={{
+              borderColor: colors.borderLight,
+            }}
+            autoComplete="off"
+            required
+          />
+          {/* Loading Spinner */}
+          {isLoadingPostcodes && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 mt-4 md:mt-0">
+              {" "}
+              {/* Adjusted positioning */}
+              <svg
+                className="animate-spin h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                style={{ color: colors.accentTeal }} // Use accentTeal for spinner color
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
             </div>
           )}
-
-          <p className="text-sm mt-4" style={{ color: colors.grayText }}>
-            By signing up, you agree to our Terms of Service and Privacy Policy.
-            We'll only use your information to provide updates about MedPals.
+          {/* Postcode Suggestions */}
+          {showPostcodeSuggestions && postcodeResults.length > 0 && (
+            <div
+              ref={suggestionsBoxRef}
+              className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto"
+              style={{ borderColor: colors.borderLight }}
+              // onClick is handled by individual li items, no need for stopPropagation here
+            >
+              <ul>
+                {postcodeResults.map((postcode, index) => (
+                  <li
+                    key={index}
+                    className="px-4 py-2 cursor-pointer text-gray-700 hover:bg-opacity-80"
+                    style={{
+                      color: colors.grayText,
+                      // Inline hover requires JS for reactivity, but for a basic effect,
+                      // Tailwind's `hover:bg-blue-50` would be simpler if not for inline style constraint
+                      // I'm using `hover:bg-opacity-80` for a subtle effect if no Tailwind hover is available
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.backgroundColor =
+                        colors.lightBlueShade)
+                    } // Manual hover for specific color
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.backgroundColor = colors.white)
+                    }
+                    onClick={() => handleSelectPostcode(postcode)}
+                  >
+                    {postcode}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <p className="text-sm mt-1" style={{ color: colors.primaryBlue }}>
+            This helps us prioritize areas for our initial launch
           </p>
         </div>
+
+        <div>
+          <label
+            htmlFor="reason"
+            className="block mb-1 font-medium"
+            style={{ color: colors.primaryBlue }}
+          >
+            Why are you interested in Medpals?
+          </label>
+          <select
+            id="reason"
+            name="reason"
+            value={formData.reason}
+            onChange={handleChange}
+            className="w-full p-3 border-2 rounded-lg focus:ring-2"
+            style={{
+              borderColor: colors.borderLight,
+            }}
+            required
+          >
+            <option value="">Select a reason</option>
+            <option value="personal">For personal medication needs</option>
+            <option value="family">For family medication needs</option>
+            <option value="professional">I'm a healthcare professional</option>
+            <option value="business">For business opportunities</option>
+            <option value="other">Other reason</option>
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="ideas"
+            className="block mb-1 font-medium"
+            style={{ color: colors.primaryBlue }}
+          >
+            Ideas & Features
+          </label>
+          <textarea
+            id="ideas"
+            name="ideas"
+            placeholder="Have any ideas or features you would love to see? Let us know!"
+            value={formData.ideas}
+            onChange={handleChange}
+            className="w-full p-3 border-2 rounded-lg h-24 resize-none focus:ring-2"
+            style={{
+              borderColor: colors.borderLight,
+            }}
+            rows={3}
+          />
+          <p className="text-sm mt-1" style={{ color: colors.primaryBlue }}>
+            Your feedback helps us build the features that matter most to you
+          </p>
+        </div>
+
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="updates"
+            name="updates"
+            checked={formData.updates}
+            onChange={handleChange}
+            className="h-4 w-4 rounded"
+            style={{
+              color: colors.primaryBlue, // Sets checkbox color if supported by browser/Tailwind config
+              borderColor: colors.grayText, // Fallback border color
+            }}
+          />
+          <label
+            htmlFor="updates"
+            className="ml-2 block"
+            style={{ color: colors.primaryBlue }}
+          >
+            Keep me updated on Medpals news and developments
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          onClick={handleSubmit} // Changed from type="button" to type="submit"
+          className="w-full text-white p-3 rounded-lg transition font-medium shadow-lg"
+          style={{
+            background: `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`,
+            // Hover effect for inline styles needs JS or external CSS.
+            // For a simple demonstration, just setting the background.
+            // For actual hover, you'd use onMouseEnter/onMouseLeave or Tailwind utility
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.background = `linear-gradient(to right, ${colors.hoverBlue} 0%, #007070 100%)`)
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.background = `linear-gradient(to right, ${colors.primaryBlue} 0%, ${colors.accentTeal} 100%)`)
+          }
+        >
+          Join Waitlist
+        </button>
+
+        {submissionStatus && (
+          <div
+            className={`mt-4 p-3 rounded-lg text-center ${
+              submissionStatus.includes("added to our waitlist")
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {submissionStatus}
+          </div>
+        )}
+
+        <p className="text-sm mt-4" style={{ color: colors.grayText }}>
+          By signing up, you agree to our Terms of Service and Privacy Policy.
+          We'll only use your information to provide updates about Medpals.
+        </p>
       </div>
     </div>
   );
